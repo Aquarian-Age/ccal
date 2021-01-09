@@ -1,10 +1,11 @@
 **使用方法**
+web
 - 默认9090端口
 ```bash
-./ccal-web-dev
+go run .
 ```
 
 - 自定义端口
 ```bash
-./ccal-web-dev -l 443
+go run . -l 9090
 ```
