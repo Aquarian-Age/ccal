@@ -58,12 +58,12 @@
     <select id="yearid" name="year">
         <script type="text/tiscript">
 		var t = new Date();
-        var selecty = $(select#yearid);
+        var select = $(select#yearid);
         for( var i = 1601; i <= 3498; ++i ){
-          selecty.options.append(<option value={i}>{i}年</option>);
+          select.options.append(<option value={i}>{i}年</option>);
             var s = select.text;
             //设置默认显示
-            selecty.value=t.year;
+            select.value=t.year;
         }
         </script>
     </select>
@@ -111,10 +111,10 @@
         <option value=" ">生肖</option>
         <script type="text/tiscript">
 				var selectsx =$(select#sxid);
-				var sxarr=["子水鼠","丑土牛","寅木虎","卯木兔","辰土龙","巳火蛇","午火马","未土羊","申金猴","酉金鸡","戌土狗","亥水猪"]
+				var sxarr=["鼠","牛","虎","兔","龙","蛇","马","羊","猴","鸡","狗","猪"]
 				for (var i =0;i<12;++i){
 				  //stdout.println(sxarr[i]);
-				  selectsx.options.append(<option value={i+1}>{sxarr[i]}</option>);
+				  selectsx.options.append(<option value={sxarr[i]}>{sxarr[i]}</option>);
 				  var sx = select.text;
 				}
         </script>
@@ -122,18 +122,12 @@
     <!--闰月选择-->
     <select id="leapmbid" name="lmb">
         <option value=" ">闰月</option>
-        <script type="text/tiscript">
-				var selectmb=$(select#leapmbid);
-				var mbarr =["否","是"];
-				for (var i =0;i<2;++i){
-				  //stdout.println(mbarr[i]);
-				  selectmb.options.append(<option value={i}>{mbarr[i]}</option>);
-				  var mb = select.text;
-				 }
-        </script>
+        <option value=false>否</option>
+        <option value=true>是</option>
     </select>
 </form>
 <hr>
+<!--按钮:基本纪年 择吉 择日 奇门 禽星  今日农历-->
 <div id="btn">
     <button id="btn1">纪年信息</button>
     <button id="btn2">小六壬择吉</button>
@@ -144,16 +138,17 @@
     <button id="btn5">24节气</button>
     <button id="btn6">关于</button>
 </div>
+<!--显示基本纪年 择吉 择日 奇门 禽星  今日农历-->
 <div id="show">
-    <p id="sjn"></p>
-    <p id="ljn"></p>
+    <p id="p1"></p>
+    <p id="p2"></p>
     <p id="gjn"></p>
     <p id="lmb"></p>
     <p id="gzny"></p>
     <p id="today"></p>
 </div>
 
-<!-- info -->
+<!-- info 吉凶 -->
 <div id="formjx">
     <form action="">
         <select id="yji" name="suiji">
@@ -269,8 +264,9 @@
 <button id="btngzs">查看</button>
 <!--干支八宫查询 end-->
 
+<!--基本纪年-->
 <script type="text/tiscript">
-		$(#btn1).on("click",function(){
+    function ymdhsb(){
           //年
           var opt = $(select[name='year']).$$(option);
           var ly= 0;
@@ -331,191 +327,78 @@
                   //stdout.println("选中lb:",lb);
               }
           }
+         var formData = {
+         "year":ly,
+         "month":lm,
+         "day":ld,
+         "hour":lh,
+         "zodiac":sx,
+         "leapmb":lb
+         };
+         //stdout.println("func ymdh()-->",JSON.stringify(formData));
+         return formData;
+    }
 
-        //定义一个方法
-         var ymd = this.ymdh(ly,lm,ld,lh,sx,lb);
-        // stdout.println("ymdh:",ymd);
+    //基本纪年信息
+	$(#btn1).on("click",function(){
+		var infoymdh = ymdhsb();
+		//stdout.println(infoymdh.year,infoymdh.month, infoymdh.day, infoymdh.hour,infoymdh.zodiac, infoymdh.leapmb)
 
-          //定一个window方法
-          var info = view.ymdinfo(ymd);
+         //定一个window方法
+          var info = view.ymdinfo(infoymdh.year,infoymdh.month, infoymdh.day, infoymdh.hour,infoymdh.zodiac, infoymdh.leapmb);
          //stdout.println("ymdinfo:",info);//返回go处理之后的结果
-           //内容加载到json对象中
-          var jsonData = parseData(info);
+          var jsonData = parseData(info);//解析json
           if(jsonData){
            // stdout.printf("JSON data is : %v\n", jsonData);
-            $(#sjn).value = jsonData.sjn;
-            $(#ljn).value = jsonData.ljn;
-            $(#gjn).value = jsonData.gjn;
-            $(#lmb).value = jsonData.ny;
-            $(#gzny).value = jsonData.lmb;
+            $(#p1).value = jsonData.sjn+"\n"+jsonData.ljn+"\n"+jsonData.gjn+"\n"+jsonData.ny+"\n"+jsonData.lmb;
           }else{
             stdout.println("No data");
           }
     });
 </script>
+<!--小六壬-->
 <script type="text/tiscript">
-		$(#btn2).on("click",function(){
-          //年
-          var opt = $(select[name='year']).$$(option);
-          var ly= 0;
-          for(var child in opt) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ly = child.value;
-              }
-          }
-          //月
-          var optm = $(select[name='month']).$$(option);
-          var lm= 0;
-          for(var child in optm) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lm = child.value;
-              }
-          }
-          //日
-          var optd = $(select[name='day']).$$(option);
-          var ld= 0;
-          for(var child in optd) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ld = child.value;
-              }
-          }
-           //时辰
-          var opth = $(select[name='hour']).$$(option);
-          var lh= 0;
-          for(var child in opth) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lh = child.value;
-              }
-          }
-          //生肖
-          var optsx = $(select[name='shengxiao']).$$(option);
-          var sx =0;
-          for(var child in optsx){
-          //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)){
-                  sx = child.value;
-              }
-          }
-          //闰月
-          var optmb=$(select[name='lmb']).$$(option);
-          var lb=0;
-          for(var child in optmb){
-          //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)){
-                  lb = child.value;
-              }
-          }
-
-          //定义一个方法
-          var xlr = this.xlrzj(ly,lm,ld,lh,sx,lb);
-
-          //定一个window方法
-          var xlrinfo = view.xlrzjinfo(xlr);
-           //内容加载到json对象中
-          var jsonData = parseData(xlrinfo);
-          if(jsonData){
+    //小六壬
+    $(#btn2).on("click",function(){
+        var xlrymdh = ymdhsb();
+        var xlrinfo = view.xlrzjinfo(xlrymdh.year,xlrymdh.month, xlrymdh.day, xlrymdh.hour,xlrymdh.zodiac, xlrymdh.leapmb);
+       //stdout.println("小六壬前端数据",xlrinfo);
+        var jsonData = parseData(xlrinfo);
+        if(jsonData){
             //stdout.printf("JSON data is : %v\n", jsonData);
-            //stdout.printf("type:%v\n",jsonData.x_ji_gan_arr.typeof);
-            $(#sjn).value = jsonData.xstar_name;
-            $(#ljn).value = jsonData.xinfo;
-            $(#gjn).value = jsonData.xzeji;
-            $(#lmb).value = jsonData.x_ji_gan_arr;
-            $(#gzny).value = jsonData.x_qi_sha_arr;
-          }else{
+            $(#p2).value = jsonData.xstar_name+"\n"+jsonData.xzeji+"\n"+jsonData.x_ji_gan_arr+"\n"+jsonData.x_qi_sha_arr;
+        }else{
             stdout.println("No data");
-          }
-      	});
-</script>
-
-<script type="text/tiscript">
-		$(#btn3).on("click",function(){
-          //年
-          var opt = $(select[name='year']).$$(option);
-          var ly= 0;
-          for(var child in opt) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ly = child.value;
-              }
-          }
-          //月
-          var optm = $(select[name='month']).$$(option);
-          var lm= 0;
-          for(var child in optm) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lm = child.value;
-              }
-          }
-          //日
-          var optd = $(select[name='day']).$$(option);
-          var ld= 0;
-          for(var child in optd) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ld = child.value;
-              }
-          }
-           //时辰
-          var opth = $(select[name='hour']).$$(option);
-          var lh= 0;
-          for(var child in opth) {
-              //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lh = child.value;
-              }
-          }
-          //生肖
-          var optsx = $(select[name='shengxiao']).$$(option);
-          var sx =0;
-          for(var child in optsx){
-          //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)){
-                  sx = child.value;
-              }
-          }
-          //闰月
-          var optmb=$(select[name='lmb']).$$(option);
-          var lb=0;
-          for(var child in optmb){
-          //判断元素是否选中
-              if(child.getState(Element.STATE_CHECKED)){
-                  lb = child.value;
-              }
-          }
-          //定义一个方法
-          var xjs = this.xjbfshu(ly,lm,ld,lh,sx,lb);
-          //定一个window方法
-          var xjbfsinfo = view.xjbfsinfo(xjs);
-           //内容加载到json对象中
-          var jsonData = parseData(xjbfsinfo);
-          if(jsonData){
-           // stdout.printf("JSON data is : %v\n", jsonData);
-            $(#sjn).value = jsonData.nb;
-            $(#ljn).value = jsonData.yb;
-            $(#gjn).value = jsonData.rb;
-            $(#lmb).value = jsonData.bw;
-            $(#gzny).value = "";
-          }else{
-            stdout.println("No data");
-          }
+        }
     });
 </script>
-
+<!--协纪辩方书-->
+<script type="text/tiscript">
+    $(#btn3).on("click",function(){
+        stdout.println("btn3 clicked");
+        var xjymdh = ymdhsb();
+        //stdout.println(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
+        var xjinfo = view.xjbfsinfo(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
+        //stdout.println(xjinfo);
+        var xjbfs = parseData(xjinfo);
+        if (xjbfs){
+            //stdout.println("xjbfs:",xjbfs.nb,xjbfs.yb,xjbfs.rb,xjbfs.bw);
+            $(#p2).value = xjbfs.nb+"\n"+xjbfs.yb+"\n"+xjbfs.rb+"\n"+xjbfs.bw
+        }else{
+            stdout.println("err no data");
+        }
+    });
+</script>
+<!--今日农历日期-->
 <script type="text/tiscript">
 		$(#btn4).on("click",function(){
         var tinfo = view.todaytinfo();
-        $(#today).value= tinfo;
+        $(#p2).value= tinfo;
     });
 </script>
-
+<!--24节气-->
 <script type="text/tiscript">
 		$(#btn5).on("click",function(){
-         //年
          var opt = $(select[name='year']).$$(option);
          var ly= 0;
             for(var child in opt) {
@@ -523,147 +406,38 @@
                   ly = child.value;
             }
          }
-        var jieq = this.jieqi(ly);
-        var jq24 = view.jieqiinfo(jieq);
-        //stdout.println(jq24);
-        //$(#today).value = jq24;
+        var jq24 = view.jieqiinfo(ly);
         $(#yjx).value = jq24;//显示到右下角布局内
-        //view.msgbox(jq24);
     });
 </script>
-
+<!--btn6 aboout-->
 <script type="text/tiscript">
+        var root = view.window;
 		$(#btn6).on("click",function(){
         var about = view.aboutinfo();
-        //stdout.println(about);
-        //$(#today).value = about;
-        $(#yjx).value = about;//显示到右下角布局内
+        var ab = parseData(about);
+        view.msgbox("https://github.com/Aquarian-Age/ccal");//弹窗显示
     });
 </script>
-
+<!--奇门-->
 <script type="text/tiscript">
-		$(#btn7).on("click",function(){
-         //年
-         var opt = $(select[name='year']).$$(option);
-         var ly= 0;
-            for(var child in opt) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ly = child.value;
-            }
-         }
-         //月
-          var optm = $(select[name='month']).$$(option);
-          var lm= 0;
-          for(var child in optm) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lm = child.value;
-              }
-          }
-          //日
-          var optd = $(select[name='day']).$$(option);
-          var ld= 0;
-          for(var child in optd) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ld = child.value;
-              }
-          }
-           //时辰
-          var opth = $(select[name='hour']).$$(option);
-          var lh= 0;
-          for(var child in opth) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lh = child.value;
-              }
-          }
-          //生肖
-          var optsx = $(select[name='shengxiao']).$$(option);
-          var sx =0;
-          for(var child in optsx){
-              if(child.getState(Element.STATE_CHECKED)){
-                sx = child.value;
-              }
-          }
-          //闰月
-          var optmb=$(select[name='lmb']).$$(option);
-          var lb=0;
-          for(var child in optmb){
-              if(child.getState(Element.STATE_CHECKED)){
-                lb = child.value;
-              }
-          }
-        var qm = this.qimen(ly,lm,ld,lh,sx,lb);
-        var qms = view.qimeninfo(qm);
-        //stdout.println(qms);
-        //$(#today).value = qms;
-        $(#sjn).value = qms;
-        $(#ljn).value = "";
-        $(#gjn).value = "";
-        $(#lmb).value = "";
-        $(#gzny).value = "";
+	$(#btn7).on("click",function(){
+        var qmymdh = ymdhsb();
+        var qms = view.qimeninfo(qmymdh.year,qmymdh.month, qmymdh.day, qmymdh.hour,qmymdh.zodiac, qmymdh.leapmb);
+        //stdout.println("获取奇门前端数据:",qms);
+        $(#p2).value = qms;
     });
 </script>
-
+<!--禽星-->
 <script type="text/tiscript">
-		$(#btn8).on("click",function(){
-         //年
-         var opt = $(select[name='year']).$$(option);
-         var ly= 0;
-            for(var child in opt) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ly = child.value;
-            }
-         }
-         //月
-          var optm = $(select[name='month']).$$(option);
-          var lm= 0;
-          for(var child in optm) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lm = child.value;
-              }
-          }
-          //日
-          var optd = $(select[name='day']).$$(option);
-          var ld= 0;
-          for(var child in optd) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  ld = child.value;
-              }
-          }
-           //时辰
-          var opth = $(select[name='hour']).$$(option);
-          var lh= 0;
-          for(var child in opth) {
-              if(child.getState(Element.STATE_CHECKED)) {
-                  lh = child.value;
-              }
-          }
-          //生肖
-          var optsx = $(select[name='shengxiao']).$$(option);
-          var sx =0;
-          for(var child in optsx){
-              if(child.getState(Element.STATE_CHECKED)){
-                sx = child.value;
-              }
-          }
-          //闰月
-          var optmb=$(select[name='lmb']).$$(option);
-          var lb=0;
-          for(var child in optmb){
-              if(child.getState(Element.STATE_CHECKED)){
-                lb = child.value;
-              }
-          }
-        var qx = this.qinxing(ly,lm,ld,lh,sx,lb);
-        var qxs = view.qinxinginfo(qx);
-        $(#sjn).value = qxs;
-        $(#ljn).value = "";
-        $(#gjn).value = "";
-        $(#lmb).value = "";
-        $(#gzny).value = "";
+	$(#btn8).on("click",function(){
+        var qinymdh = ymdhsb();
+        var qxs = view.qinxinginfo(qinymdh.year,qinymdh.month, qinymdh.day, qinymdh.hour,qinymdh.zodiac, qinymdh.leapmb);
+        $(#p2).value = qxs;
     });
 </script>
 
-<!--info -->
+<!--info 吉凶信息 -->
 <script type="text/tiscript">
 		$(#btninfo).on("click",function(){
       var opt = $(select[name='suiji']).$$(option);
@@ -671,7 +445,6 @@
          for(var child in opt) {
             if(child.getState(Element.STATE_CHECKED)) {
                 yj = child.value;
-               // stdout.println("选中yj:",yj);
             }
          }
          var opt1 = $(select[name='suixiong']).$$(option);
@@ -679,16 +452,13 @@
          for(var child in opt1) {
             if(child.getState(Element.STATE_CHECKED)) {
                 yj1 = child.value;
-               // stdout.println("选中yj1:",yj1);
             }
          }
          var opt2 = $(select[name='suisha']).$$(option);
          var yj2= 0;
          for(var child in opt2) {
-            //判断元素是否选中
             if(child.getState(Element.STATE_CHECKED)) {
                 yj2 = child.value;
-               // stdout.println("选中yj2:",yj2);
             }
          }
          //月吉凶
@@ -697,16 +467,14 @@
          for (var child in optmj){
             if (child.getState(Element.STATE_CHECKED)){
                 mj = child.value;
-                //stdout.println("月吉:",mj);
             }
          }
-                  //月吉凶
+         //月吉凶
          var optmx = $(select[name='yuexiong']).$$(option);
          var mx = 0;
          for (var child in optmx){
             if (child.getState(Element.STATE_CHECKED)){
                 mx = child.value;
-                //stdout.println("月凶:",mx);
             }
          }
 
@@ -719,9 +487,8 @@
           "mxs":mx
          };
 
-         var res = view.reg(JSON.stringify(formData));
-        // stdout.println(res);
-         $(#yjx).value = res;
+         var jxs = view.jiXiong(JSON.stringify(formData));
+         $(#yjx).value = jxs;
     });
 </script>
 <!--info end-->
@@ -729,13 +496,11 @@
 <!--查询-->
 <script type="text/tiscript">
     $(#btngzs).on("click",function(){
-
          var optg = $(select[name='gan']).$$(option);
             var gan = 0;
             for (var child in optg){
               if (child.getState(Element.STATE_CHECKED)){
                 gan = child.value;
-                //stdout.println("gan:",gan);
             }
          }
 
@@ -744,7 +509,6 @@
             for (var child in optz){
                 if (child.getState(Element.STATE_CHECKED)){
                 zhi = child.value;
-                //stdout.println("zhi:",zhi);
             }
         }
 
@@ -753,7 +517,6 @@
             for (var child in optgua){
                 if (child.getState(Element.STATE_CHECKED)){
                 gua = child.value;
-                //stdout.println("gua:",gua);
             }
         }
 

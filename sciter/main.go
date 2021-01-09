@@ -29,21 +29,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//加载文件
-	w.LoadFile("ccal.html")
-	//设置标题
+
+	w.LoadFile("cal.html")
 	w.SetTitle("农历择日")
-
-	//窗口根元素
-	root, _ := w.GetRootElement()
-	setElementHandlers(root)
-
 	SetWinHandler(w)
-	//吉凶信息
 	SetWinHandlerInfo(w)
-	//显示窗口
 	w.Show()
-	//运行窗口
 	w.Run()
 }
 
@@ -65,55 +56,55 @@ func main() {
 "八专", "触水龙", "兵禁", "月忌日", "无禄日", "上朔", "伐日",
 */
 func SetWinHandlerInfo(w *window.Window) {
-	w.DefineFunction("reg", func(args ...*sciter.Value) *sciter.Value {
-		var js string
-		for _, v := range args {
-			js = v.String()
-		}
-		//解析前端传来的json数据
-		var regObj YearJXObj
-		json.Unmarshal([]byte(js), &regObj)
-		//岁吉凶煞
-		var ji, xiong, sha string
-		if len(regObj.SuiJi) < 1 {
-			ji = "岁德"
-		} else {
-			ji = regObj.SuiJi
-		}
-		if regObj.SuiXiong == "" {
-			xiong = "力士"
-		} else {
-			xiong = regObj.SuiXiong
-		}
-		if regObj.SuiSha == "" {
-			sha = "岁煞"
-		} else {
-			sha = regObj.SuiSha
-		}
-		//岁吉凶
-		a, b, c := jx.SuiJiXiong(ji, xiong, sha)
-		//月吉凶
-		var mj, mx string
-		if regObj.Mjs == "" {
-			mj = "天德"
-		} else {
-			mj = regObj.Mjs
-		}
-		if regObj.Mjs == "" {
-			mx = "天贼"
-		} else {
-			mx = regObj.Mxs
-		}
-		mjs, mxs := jx.YueJiXiong(mj, mx)
-		//fmt.Println("web-->", regObj.Mjs, regObj.Mxs, mjs, mxs)
-		//返回处理之后的值
-		s0 := a + "\n" + b + "\n" + c + "\n" //岁吉凶煞
-		s1 := mjs + mxs + "\n"               //月吉凶
-		s := s0 + s1
-		return sciter.NewValue(s)
-	})
+	w.DefineFunction("jiXiong", jiXiong)
 	//干支八卦查询
 	w.DefineFunction("ganZhiGua", ganZhiGua)
+}
+func jiXiong(args ...*sciter.Value) *sciter.Value {
+	var js string
+	for _, v := range args {
+		js = v.String()
+	}
+	//解析前端传来的json数据
+	var regObj YearJXObj
+	json.Unmarshal([]byte(js), &regObj)
+	//岁吉凶煞
+	var ji, xiong, sha string
+	if len(regObj.SuiJi) < 1 {
+		ji = "岁德"
+	} else {
+		ji = regObj.SuiJi
+	}
+	if regObj.SuiXiong == "" {
+		xiong = "力士"
+	} else {
+		xiong = regObj.SuiXiong
+	}
+	if regObj.SuiSha == "" {
+		sha = "岁煞"
+	} else {
+		sha = regObj.SuiSha
+	}
+	//岁吉凶
+	a, b, c := jx.SuiJiXiong(ji, xiong, sha)
+	//月吉凶
+	var mj, mx string
+	if regObj.Mjs == "" {
+		mj = "天德"
+	} else {
+		mj = regObj.Mjs
+	}
+	if regObj.Mjs == "" {
+		mx = "天贼"
+	} else {
+		mx = regObj.Mxs
+	}
+	mjs, mxs := jx.YueJiXiong(mj, mx)
+	//返回处理之后的值
+	s0 := a + "\n" + b + "\n" + c + "\n" //岁吉凶煞
+	s1 := mjs + mxs + "\n"               //月吉凶
+	s := s0 + s1
+	return sciter.NewValue(s)
 }
 func ganZhiGua(args ...*sciter.Value) *sciter.Value {
 	var jsgzg string
@@ -169,246 +160,6 @@ type YearJXObj struct {
 	Mxs      string `json:"mxs"`      //月凶
 }
 
-//########################################
-//设置元素的处理程序
-func setElementHandlers(root *sciter.Element) {
-	//获取下拉值 基本纪年
-	btn1, err := root.SelectById("btn1")
-	if err != nil {
-		log.Fatal("btn1:", err)
-	}
-	btn1.DefineMethod("ymdh", ymdh)
-	//获取下拉值 小六壬择吉
-	btn2, err := root.SelectById("btn2")
-	if err != nil {
-		log.Fatal("btn2:", err)
-	}
-	btn2.DefineMethod("xlrzj", xlrzj)
-	//获取下拉值 协纪辩方书
-	btn3, err := root.SelectById("btn3")
-	if err != nil {
-		log.Fatal("btn3:", err)
-	}
-	btn3.DefineMethod("xjbfshu", xjbfshu)
-	//今日农历
-	btn4, err := root.SelectById("btn4")
-	if err != nil {
-		log.Fatal("btn4:", err)
-	}
-	btn4.DefineMethod("todayt", todayt)
-	//24节气
-	btn5, err := root.SelectById("btn5")
-	if err != nil {
-		log.Fatal("btn5:", err)
-	}
-	btn5.DefineMethod("jieqi", jieqi)
-	//关于
-	btn6, err := root.SelectById("btn6")
-	if err != nil {
-		log.Fatal("btn6:", err)
-	}
-	btn6.DefineMethod("about", about)
-	//奇门
-	btn7, err := root.SelectById("btn7")
-	if err != nil {
-		log.Fatal("btn7:", err)
-	}
-	btn7.DefineMethod("qimen", qimen)
-	//禽星
-	btn8, err := root.SelectById("btn8")
-	if err != nil {
-		log.Fatal("btn8:", err)
-	}
-	btn8.DefineMethod("qinxing", qinxing)
-}
-
-//处理下拉列表获取的数据 元素的处理程序
-func ymdh(args ...*sciter.Value) *sciter.Value {
-	var ly, lm, ld, lh, sx, lb string
-	//获取下拉值
-	for k, arg := range args {
-		//String()把参数转换成字符串
-		//fmt.Printf("-->ymdh k=%d v=%s\n", k, arg.String())
-		switch k {
-		case 0:
-			ly = arg.String()
-		case 1:
-			lm = arg.String()
-		case 2:
-			ld = arg.String()
-		case 3:
-			lh = arg.String()
-		case 4:
-			sx = arg.String()
-		case 5:
-			lb = arg.String()
-		}
-	}
-	//fmt.Printf("--> %s-%d %s-%d %s-%d %s-%d %s-%d %s-%d\n", ly, len(ly), lm, len(lm), ld, len(ld), lh, len(lh), sx, len(sx), lb, len(lb))
-
-	if len(lm) < 2 {
-		lm = "0" + lm
-	}
-	if len(ld) < 2 {
-		ld = "0" + ld
-	}
-	if len(lh) < 2 {
-		lh = "0" + lh
-	}
-	if len(sx) < 2 {
-		sx = "0" + sx
-	}
-	//fmt.Printf("-->++ %s-%d %s-%d %s-%d %s-%d %s-%d %s-%d\n", ly, len(ly), lm, len(lm), ld, len(ld), lh, len(lh), sx, len(sx), lb, len(lb))
-	sinfo := fmt.Sprintf("%s%s%s%s%s%s", ly, lm, ld, lh, sx, lb)
-	return sciter.NewValue(sinfo)
-
-}
-func xlrzj(args ...*sciter.Value) *sciter.Value {
-	var ly, lm, ld, lh, sx, lb string
-	//获取下拉值
-	for k, arg := range args {
-		switch k {
-		case 0:
-			ly = arg.String()
-		case 1:
-			lm = arg.String()
-		case 2:
-			ld = arg.String()
-		case 3:
-			lh = arg.String()
-		case 4:
-			sx = arg.String()
-		case 5:
-			lb = arg.String()
-		}
-	}
-	if len(lm) < 2 {
-		lm = "0" + lm
-	}
-	if len(ld) < 2 {
-		ld = "0" + ld
-	}
-	if len(lh) < 2 {
-		lh = "0" + lh
-	}
-	if len(sx) < 2 {
-		sx = "0" + sx
-	}
-	sinfo := fmt.Sprintf("%s%s%s%s%s%s", ly, lm, ld, lh, sx, lb)
-	return sciter.NewValue(sinfo)
-}
-func xjbfshu(args ...*sciter.Value) *sciter.Value {
-	var ly, lm, ld, lh, sx, lb string
-	//获取下拉值
-	for k, arg := range args {
-		switch k {
-		case 0:
-			ly = arg.String()
-		case 1:
-			lm = arg.String()
-		case 2:
-			ld = arg.String()
-		case 3:
-			lh = arg.String()
-		case 4:
-			sx = arg.String()
-		case 5:
-			lb = arg.String()
-		}
-	}
-	if len(lm) < 2 {
-		lm = "0" + lm
-	}
-	if len(ld) < 2 {
-		ld = "0" + ld
-	}
-	if len(lh) < 2 {
-		lh = "0" + lh
-	}
-	if len(sx) < 2 {
-		sx = "0" + sx
-	}
-	sinfo := fmt.Sprintf("%s%s%s%s%s%s", ly, lm, ld, lh, sx, lb)
-	return sciter.NewValue(sinfo)
-}
-func todayt(args ...*sciter.Value) *sciter.Value {
-	return sciter.NullValue()
-}
-func jieqi(args ...*sciter.Value) *sciter.Value {
-	return sciter.NewValue(args[0].String())
-}
-func about(args ...*sciter.Value) *sciter.Value {
-	return sciter.NullValue()
-}
-func qimen(args ...*sciter.Value) *sciter.Value {
-	var ly, lm, ld, lh, sx, lb string
-	//获取下拉值
-	for k, arg := range args {
-		switch k {
-		case 0:
-			ly = arg.String()
-		case 1:
-			lm = arg.String()
-		case 2:
-			ld = arg.String()
-		case 3:
-			lh = arg.String()
-		case 4:
-			sx = arg.String()
-		case 5:
-			lb = arg.String()
-		}
-	}
-	if len(lm) < 2 {
-		lm = "0" + lm
-	}
-	if len(ld) < 2 {
-		ld = "0" + ld
-	}
-	if len(lh) < 2 {
-		lh = "0" + lh
-	}
-	if len(sx) < 2 {
-		sx = "0" + sx
-	}
-	sinfo := fmt.Sprintf("%s%s%s%s%s%s", ly, lm, ld, lh, sx, lb)
-	return sciter.NewValue(sinfo)
-}
-func qinxing(args ...*sciter.Value) *sciter.Value {
-	var ly, lm, ld, lh, sx, lb string
-	//获取下拉值
-	for k, arg := range args {
-		switch k {
-		case 0:
-			ly = arg.String()
-		case 1:
-			lm = arg.String()
-		case 2:
-			ld = arg.String()
-		case 3:
-			lh = arg.String()
-		case 4:
-			sx = arg.String()
-		case 5:
-			lb = arg.String()
-		}
-	}
-	if len(lm) < 2 {
-		lm = "0" + lm
-	}
-	if len(ld) < 2 {
-		ld = "0" + ld
-	}
-	if len(lh) < 2 {
-		lh = "0" + lh
-	}
-	if len(sx) < 2 {
-		sx = "0" + sx
-	}
-	sinfo := fmt.Sprintf("%s%s%s%s%s%s", ly, lm, ld, lh, sx, lb)
-	return sciter.NewValue(sinfo)
-}
-
 //#################################
 func SetWinHandler(w *window.Window) {
 	//纪年信息
@@ -431,12 +182,10 @@ func SetWinHandler(w *window.Window) {
 
 //纪年信息
 func ymdinfo(args ...*sciter.Value) *sciter.Value {
-	var s string
-	for _, v := range args {
-		//fmt.Printf("-->ymdinfo v:%s len=%d\n", v.String(), len(v.String()))
-		s = v.String()
-	}
-	y, m, d, h, sx, b := convs(s)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	//fmt.Printf("ymdinfo ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
+
 	err, solar, lu, g, _ := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
 		log.Fatal("ccal-input:", err)
@@ -474,18 +223,14 @@ func ymdinfo(args ...*sciter.Value) *sciter.Value {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//fmt.Printf("jnjson:%s\n", string(jnjson))
-
 	return sciter.NewValue(string(jnjson))
 }
 
 //小六壬择吉信息
 func xlrzjinfo(args ...*sciter.Value) *sciter.Value {
-	var as string
-	for _, v := range args {
-		as = v.String()
-	}
-	y, m, d, h, sx, b := convs(as)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	//fmt.Printf("xlrzjinfo ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, s, l, g, jq := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
 		log.Fatal("ccal-input:", err)
@@ -551,11 +296,9 @@ func xlrzjinfo(args ...*sciter.Value) *sciter.Value {
 
 //协纪辩方书
 func xjbfsinfo(args ...*sciter.Value) *sciter.Value {
-	var as string
-	for _, v := range args {
-		as = v.String()
-	}
-	y, m, d, h, sx, b := convs(as)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	//fmt.Printf("协纪辩方书info ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, s, l, g, jq := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
 		log.Fatal("ccal-input:", err)
@@ -707,25 +450,34 @@ func jieqiinfo(args ...*sciter.Value) *sciter.Value {
 //关于
 func aboutinfo(args ...*sciter.Value) *sciter.Value {
 	ab := xjbfs.AboutMe()
-	abouts := ab.Info + "\n" + "下载链接: " + ab.Url1 + "\n" + "农历编算参考: " + ab.Url2 + "\n" + "Mail: " + ab.Me + "\n"
-	return sciter.NewValue(abouts)
+	about, err := json.Marshal(*ab)
+	if err != nil {
+		log.Fatal("about:", err)
+	}
+	return sciter.NewValue(string(about))
+}
+
+type About struct {
+	Info string `json:"info"`
+	Url1 string `json:"url1"`
+	Url2 string `json:"url2"`
+	Mail string `json:"mail"`
 }
 
 //奇门
 func qimeninfo(args ...*sciter.Value) *sciter.Value {
-	var as string
-	for _, v := range args {
-		as = v.String()
-	}
-	y, m, d, h, sx, b := convs(as)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	//fmt.Printf("奇门info ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, s, _, g, _ := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
 		log.Fatal("ccal-input:", err)
 	}
-	yg := g.YearGanM
-	yz := g.YearZhiM
-	ygz := fmt.Sprintf("%s%s", yg, yz)
-	mgz := g.MonthGanZhiM
+	//yg := g.YearGanM
+	//yz := g.YearZhiM
+	//ygz := fmt.Sprintf("%s%s", yg, yz)
+	//mgz := g.MonthGanZhiM
+	//gzs := fmt.Sprintf("%s-%s-%s-%s\n", ygz, mgz, dgzm, hgzm)
 	///时家奇门
 	dgzm := fmt.Sprintf("%s%s", g.DayGanM, g.DayZhiM)
 	hgzm := g.HourGanZhiM
@@ -754,17 +506,15 @@ func qimeninfo(args ...*sciter.Value) *sciter.Value {
 		G.G7[0], G.G7[1], G.G7[2], G.G7[3], G.G7[4], G.G7[5],
 		G.G6[0], G.G6[1], G.G6[2], G.G6[3], G.G6[4], G.G6[5],
 	)
-	gzs := fmt.Sprintf("%s-%s-%s-%s\n", ygz, mgz, dgzm, hgzm)
-	return sciter.NewValue(gzs + qms)
+
+	return sciter.NewValue(qms)
 }
 
 //禽星
 func qinxinginfo(args ...*sciter.Value) *sciter.Value {
-	var as string
-	for _, v := range args {
-		as = v.String()
-	}
-	y, m, d, h, sx, b := convs(as)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	//fmt.Printf("禽星info ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, _, l, g, _ := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
 		log.Fatal("ccal-input:", err)
@@ -823,15 +573,7 @@ type JN struct {
 	Ny  string `json:"ny"`
 }
 
-func convs(s string) (int, int, int, int, string, bool) {
-	rs := []rune(s)
-	ys := string(rs[:4])  //年數字
-	ms := string(rs[4:6]) //月數字
-	ds := string(rs[6:8])
-	hs := string(rs[8:10]) //時辰數字1子時　2丑時...１２亥時
-	sxs := string(rs[10:12])
-	bs := string(rs[12:13])
-	//fmt.Printf("--conv ly=%d lm=%d ld=%d lh=%d lsx=%d lb=%d\n", len(ys), len(ms), len(ds), len(hs), len(sxs), len(bs))
+func ConvStoInt(ys, ms, ds, hs, bs string) (int, int, int, int, bool) {
 	y, err := strconv.Atoi(ys)
 	if err != nil {
 		log.Fatal("年份時間解析:", err)
@@ -849,62 +591,9 @@ func convs(s string) (int, int, int, int, string, bool) {
 	if err != nil {
 		log.Fatal("時辰解析:", err)
 	}
-
-	si, err := strconv.Atoi(sxs)
-	if err != nil {
-		log.Fatal("生肖解析:", err)
-	}
-	sx := lunar.ConvSX(si)
-
-	bi, err := strconv.Atoi(bs)
-	if err != nil {
-		log.Fatal("闰月数字解析:", err)
-	}
-	if bi == 0 {
-		bs = "f"
-	} else if bi == 1 {
-		bs = "t"
-	}
 	b, err := strconv.ParseBool(bs)
 	if err != nil {
 		log.Fatal("閏月bool解析:", err)
 	}
-
-	//fmt.Printf("--> convs: y:%v m:%v d:%v h:%v sx:%v b:%t\n", y, m, d, h, sx, b)
-	return y, m, d, h, sx, b
-}
-
-func conv(ly, lm, ld, lh, sx, lb string) (y, m, d, h int, s string, b bool) {
-	y, err := strconv.Atoi(ly)
-	if err != nil {
-		log.Fatal(err)
-	}
-	m, err = strconv.Atoi(lm)
-	if err != nil {
-		log.Fatal(err)
-	}
-	d, err = strconv.Atoi(ld)
-	if err != nil {
-		log.Fatal(err)
-	}
-	h, err = strconv.Atoi(lh)
-	if err != nil {
-		log.Fatal(err)
-	}
-	si, err := strconv.Atoi(sx)
-	if err != nil {
-		log.Fatal(err)
-	}
-	bi, err := strconv.Atoi(lb) //0:f 1:t
-	if err != nil {
-		log.Fatal(err)
-	}
-	s = lunar.ConvSX(si)
-	if bi == 0 {
-		b = false
-	} else if bi == 1 {
-		b = true
-	}
-	return
-
+	return y, m, d, h, b
 }
