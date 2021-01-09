@@ -56,11 +56,11 @@ func main() {
 "八专", "触水龙", "兵禁", "月忌日", "无禄日", "上朔", "伐日",
 */
 func SetWinHandlerInfo(w *window.Window) {
-	w.DefineFunction("jiXiong", jiXiong)
+	w.DefineFunction("jiXiongInfo", jiXiongInfo)
 	//干支八卦查询
 	w.DefineFunction("ganZhiGua", ganZhiGua)
 }
-func jiXiong(args ...*sciter.Value) *sciter.Value {
+func jiXiongInfo(args ...*sciter.Value) *sciter.Value {
 	var js string
 	for _, v := range args {
 		js = v.String()
@@ -69,41 +69,23 @@ func jiXiong(args ...*sciter.Value) *sciter.Value {
 	var regObj YearJXObj
 	json.Unmarshal([]byte(js), &regObj)
 	//岁吉凶煞
-	var ji, xiong, sha string
-	if len(regObj.SuiJi) < 1 {
-		ji = "岁德"
-	} else {
-		ji = regObj.SuiJi
-	}
-	if regObj.SuiXiong == "" {
-		xiong = "力士"
-	} else {
-		xiong = regObj.SuiXiong
-	}
-	if regObj.SuiSha == "" {
-		sha = "岁煞"
-	} else {
-		sha = regObj.SuiSha
-	}
+	ji := regObj.SuiJi
+	xiong := regObj.SuiXiong
+	sha := regObj.SuiSha
 	//岁吉凶
-	a, b, c := jx.SuiJiXiong(ji, xiong, sha)
+	a, b, c := jx.YjxInfo(ji, xiong, sha)
 	//月吉凶
-	var mj, mx string
-	if regObj.Mjs == "" {
-		mj = "天德"
-	} else {
-		mj = regObj.Mjs
-	}
-	if regObj.Mjs == "" {
-		mx = "天贼"
-	} else {
-		mx = regObj.Mxs
-	}
-	mjs, mxs := jx.YueJiXiong(mj, mx)
+	mj := regObj.Mjs
+	mx := regObj.Mxs
+	mjs, mxs := jx.MjxInfo(mj, mx)
+
+	//日建除
+	jcs := jx.JianChuInfo(regObj.Jc)
+
 	//返回处理之后的值
 	s0 := a + "\n" + b + "\n" + c + "\n" //岁吉凶煞
 	s1 := mjs + mxs + "\n"               //月吉凶
-	s := s0 + s1
+	s := s0 + s1 + jcs
 	return sciter.NewValue(s)
 }
 func ganZhiGua(args ...*sciter.Value) *sciter.Value {
@@ -158,6 +140,7 @@ type YearJXObj struct {
 	SuiSha   string `json:"suisha"`   //岁煞
 	Mjs      string `json:"mjs"`      //月吉
 	Mxs      string `json:"mxs"`      //月凶
+	Jc       string `json:"jc"`       //日建除
 }
 
 //#################################

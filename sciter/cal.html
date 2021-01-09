@@ -31,7 +31,7 @@
         #formjx {
             /*position: absolute;*/
             position: absolute;
-            text-align: right;
+            text-align: center;
             right: 10px;
             top: 55px;
         }
@@ -175,7 +175,7 @@
         <select id="ysha" name="suisha">
             <option value=" ">岁煞</option>
             <script type="text/tiscript">
-								var ssarr = ["三煞","岁破大耗","岁刑","太岁大煞","太岁劫煞","灾煞","岁煞"];
+					var ssarr = ["三煞","岁破大耗","岁刑","太岁大煞","太岁劫煞","灾煞","岁煞"];
                     var selectss = $(select#ysha);
                     for (var i=0;i<7;++i){
                         selectss.options.append(<option value={ssarr[i]}>{ssarr[i]}</option>);
@@ -197,6 +197,7 @@
                 var selectmj =$(select#mji);
                 for (var i=0;i<mjarr.length;++i){
                     selectmj.options.append(<option value={mjarr[i]}>{mjarr[i]}</option>);
+                    var monthj = select.text;
                 }
             </script>
         </select>
@@ -213,6 +214,19 @@
                 var selectmx =$(select#mxiong);
                 for (var i=0;i<mxarr.length;++i){
                     selectmx.options.append(<option value={mxarr[i]}>{mxarr[i]}</option>);
+                    var monthx = select.text;
+                }
+            </script>
+        </select>
+        <!--建除 月日论-->
+        <select id="jianChu" name="jianchu">
+            <option value="">日建除</option>
+            <script type="text/tiscript">
+                var jcarr = ["建","除","满","平","定","执","破","危","成","收","开","闭"];
+                var selectjc = $(select#jianChu);
+                for (var i=0;i<jcarr.length;++i){
+                    selectjc.options.append(<option value={jcarr[i]}>{jcarr[i]}</option>);
+                    var jcname = select.text;
                 }
             </script>
         </select>
@@ -375,7 +389,6 @@
 <!--协纪辩方书-->
 <script type="text/tiscript">
     $(#btn3).on("click",function(){
-        stdout.println("btn3 clicked");
         var xjymdh = ymdhsb();
         //stdout.println(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
         var xjinfo = view.xjbfsinfo(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
@@ -477,6 +490,14 @@
                 mx = child.value;
             }
          }
+         //日建除
+         var optjc = $(select[name='jianchu']).$$(option);
+         var jc = 0;
+         for (var child in optjc){
+            if (child.getState(Element.STATE_CHECKED)){
+                jc = child.value;
+            }
+         }
 
          //返回数据到后端
          var formData = {
@@ -484,16 +505,17 @@
          "suixiong":yj1,
          "suisha":yj2,
           "mjs":mj,
-          "mxs":mx
+          "mxs":mx,
+          "jc":jc
          };
 
-         var jxs = view.jiXiong(JSON.stringify(formData));
+         var jxs = view.jiXiongInfo(JSON.stringify(formData));
          $(#yjx).value = jxs;
     });
 </script>
 <!--info end-->
 
-<!--查询-->
+<!--查询 天干 地支 八卦-->
 <script type="text/tiscript">
     $(#btngzs).on("click",function(){
          var optg = $(select[name='gan']).$$(option);
