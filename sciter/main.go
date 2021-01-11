@@ -436,21 +436,16 @@ func jieqiinfo(args ...*sciter.Value) *sciter.Value {
 	return sciter.NewValue(jqs)
 }
 
-//关于
+//关于-->地母经
 func aboutinfo(args ...*sciter.Value) *sciter.Value {
-	ab := xjbfs.AboutMe()
-	about, err := json.Marshal(*ab)
+	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
+	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
+	err, _, _, g, _ := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
-		log.Fatal("about:", err)
+		log.Fatal("ccal-input:", err)
 	}
-	return sciter.NewValue(string(about))
-}
-
-type About struct {
-	Info string `json:"info"`
-	Url1 string `json:"url1"`
-	Url2 string `json:"url2"`
-	Mail string `json:"mail"`
+	dimus := g.DiMu()
+	return sciter.NewValue(dimus)
 }
 
 //奇门

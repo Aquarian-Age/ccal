@@ -52,7 +52,7 @@
         .img{
             position:absolute;
             top:0.1px;
-            left: 800px;
+            left: 820px;
         }
         #qimen{
             position: absolute;
@@ -150,7 +150,7 @@
     <button id="btn8">禽星</button>
     <button id="btn4">今日农历</button>
     <button id="btn5">24节气</button>
-    <button id="btn6">关于</button>
+    <button id="btn6">地母经</button>
 </div>
 <!--显示基本纪年 择吉 择日 奇门 禽星  今日农历-->
 <div id="show">
@@ -390,7 +390,6 @@
     $(#btn2).on("click",function(){
         var xlrymdh = ymdhsb();
         var xlrinfo = view.xlrzjinfo(xlrymdh.year,xlrymdh.month, xlrymdh.day, xlrymdh.hour,xlrymdh.zodiac, xlrymdh.leapmb);
-       //stdout.println("小六壬前端数据",xlrinfo);
         var jsonData = parseData(xlrinfo);
         if(jsonData){
             $(#qimen).value = "";
@@ -405,9 +404,7 @@
 <script type="text/tiscript">
     $(#btn3).on("click",function(){
         var xjymdh = ymdhsb();
-        //stdout.println(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
         var xjinfo = view.xjbfsinfo(xjymdh.year,xjymdh.month,xjymdh.day,xjymdh.hour,xjymdh.zodiac,xjymdh.leapmb);
-        //stdout.println(xjinfo);
         var xjbfs = parseData(xjinfo);
         if (xjbfs){
             $(#qimen).value = "";
@@ -440,13 +437,16 @@
         $(#yjx).value = jq24;//显示到右下角布局内
     });
 </script>
-<!--btn6 aboout-->
+<!--btn6 aboout--\>地母经-->
 <script type="text/tiscript">
         var root = view.window;
 		$(#btn6).on("click",function(){
-        var about = view.aboutinfo();
-        var ab = parseData(about);
-        view.msgbox("https://github.com/Aquarian-Age/ccal");//弹窗显示
+		var dm = ymdhsb();
+        var dimus= view.aboutinfo(dm.year,dm.month, dm.day, dm.hour,dm.zodiac, dm.leapmb);
+        $(#qimen).value ="";
+        $(#p2).value = dimus;
+        //var ab = parseData(about);
+       // view.msgbox("https://github.com/Aquarian-Age/ccal");//弹窗显示
     });
 </script>
 <!--奇门-->
@@ -463,27 +463,28 @@
        $(#p2).value = "";
        $(#qimen).html=qmjs.jie_qi+" "+qmjs.yin_yang+qmjs.n+"局"+" "+qmjs.yuan+"<br>"+
        "值符:"+qmjs.zhifu+" "+"值使:"+qmjs.zhishi+"<br>"+
-       "----------------------------------"+"<br>"+
-        qmjs.g_4[0]+"   "+"|"+qmjs.g_9[0]+"   ""|"+qmjs.g_2[0]+"   "+"|"+"<br>"+
-        qmjs.g_4[1]+"   "+"|"+qmjs.g_9[1]+"   "+"|"+qmjs.g_2[1]+"   "+"|"+"<br>"+
-        qmjs.g_4[4]+"   "+"|"+qmjs.g_9[4]+"   "+"|"+qmjs.g_2[4]+"   "+"|"+"<br>"+
-        qmjs.g_4[3]+"     "+"|"+qmjs.g_9[3]+"     "+"|"+qmjs.g_2[3]+"     "+"|"+"<br>"+
-        qmjs.g_4[5]+"     "+"|"+qmjs.g_9[5]+"     "+"|"+qmjs.g_2[5]+"     "+"|"+"<br>"+
+       "----------------------------"+"<br>"+
+        qmjs.g_4[0]+"   "+"|"+qmjs.g_9[0]+"   ""|"+qmjs.g_2[0]+"   "+"<br>"+
+        qmjs.g_4[1]+"   "+"|"+qmjs.g_9[1]+"   "+"|"+qmjs.g_2[1]+"   "+"<br>"+
+        qmjs.g_4[4]+"   "+"|"+qmjs.g_9[4]+"   "+"|"+qmjs.g_2[4]+"   "+"<br>"+
+        qmjs.g_4[3]+"     "+"|"+qmjs.g_9[3]+"     "+"|"+qmjs.g_2[3]+"     "+"<br>"+
+        qmjs.g_4[5]+"     "+"|"+qmjs.g_9[5]+"     "+"|"+qmjs.g_2[5]+"     "+"<br>"+
         qmjs.g_4[2]+"   "+"|"+qmjs.g_9[2]+"   "+"|"+qmjs.g_2[2]+"<br>"+
-        "----------------------------------"+"<br>"+
-        qmjs.g_3[0]+"   "+"|"+qmjs.g_5[0]+"   ""|"+qmjs.g_7[0]+"   "+"|"+"<br>"+
-        qmjs.g_3[1]+"   "+"|"+qmjs.g_5[1]+"       "+"|"+qmjs.g_7[1]+"   "+"|"+"<br>"+
-        qmjs.g_3[4]+"   "+"|"+qmjs.g_5[4]+"       "+"|"+qmjs.g_7[4]+"   "+"|"+"<br>"+
-        qmjs.g_3[3]+"     "+"|"+qmjs.g_5[3]+"     "+"|"+qmjs.g_7[3]+"     "+"|"+"<br>"+
-        qmjs.g_3[5]+"     "+"|"+qmjs.g_5[5]+"     "+"|"+qmjs.g_7[5]+"     "+"|"+"<br>"+
+        "----------------------------"+"<br>"+
+        qmjs.g_3[0]+"   "+"|"+qmjs.g_5[0]+"   ""|"+qmjs.g_7[0]+"   "+"<br>"+
+        qmjs.g_3[1]+"   "+"|"+qmjs.g_5[1]+"       "+"|"+qmjs.g_7[1]+"   "+"<br>"+
+        qmjs.g_3[4]+"   "+"|"+qmjs.g_5[4]+"       "+"|"+qmjs.g_7[4]+"   "+"<br>"+
+        qmjs.g_3[3]+"     "+"|"+qmjs.g_5[3]+"     "+"|"+qmjs.g_7[3]+"     "+"<br>"+
+        qmjs.g_3[5]+"     "+"|"+qmjs.g_5[5]+"     "+"|"+qmjs.g_7[5]+"     "+"<br>"+
         qmjs.g_3[2]+"   "+"|"+qmjs.g_5[2]+"   "+"|"+qmjs.g_7[2]+"<br>"+
-       "----------------------------------"+"<br>"+
-        qmjs.g_8[0]+"   "+"|"+qmjs.g_1[0]+"   ""|"+qmjs.g_6[0]+"   "+"|"+"<br>"+
-        qmjs.g_8[1]+"   "+"|"+qmjs.g_1[1]+"   "+"|"+qmjs.g_6[1]+"   "+"|"+"<br>"+
-        qmjs.g_8[4]+"   "+"|"+qmjs.g_1[4]+"   "+"|"+qmjs.g_6[4]+"   "+"|"+"<br>"+
-        qmjs.g_8[3]+"     "+"|"+qmjs.g_1[3]+"     "+"|"+qmjs.g_6[3]+"     "+"|"+"<br>"+
-        qmjs.g_8[5]+"     "+"|"+qmjs.g_1[5]+"     "+"|"+qmjs.g_6[5]+"     "+"|"+"<br>"+
-        qmjs.g_8[2]+"   "+"|"+qmjs.g_1[2]+"   "+"|"+qmjs.g_6[2]+"<br>"
+       "----------------------------"+"<br>"+
+        qmjs.g_8[0]+"   "+"|"+qmjs.g_1[0]+"   ""|"+qmjs.g_6[0]+"   "+"<br>"+
+        qmjs.g_8[1]+"   "+"|"+qmjs.g_1[1]+"   "+"|"+qmjs.g_6[1]+"   "+"<br>"+
+        qmjs.g_8[4]+"   "+"|"+qmjs.g_1[4]+"   "+"|"+qmjs.g_6[4]+"   "+"<br>"+
+        qmjs.g_8[3]+"     "+"|"+qmjs.g_1[3]+"     "+"|"+qmjs.g_6[3]+"     "+"<br>"+
+        qmjs.g_8[5]+"     "+"|"+qmjs.g_1[5]+"     "+"|"+qmjs.g_6[5]+"     "+"<br>"+
+        qmjs.g_8[2]+"   "+"|"+qmjs.g_1[2]+"   "+"|"+qmjs.g_6[2]+"<br>"+
+        "----------------------------"+"<br>"
 
     });
 </script>
