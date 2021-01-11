@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -22,9 +23,15 @@ import (
 	"liangzi.local/ts/xjbfs"
 )
 
+func init() {
+	err := qrencode()
+	if err != nil {
+		os.Exit(1)
+	}
+}
 func main() {
 	w, err := window.New(sciter.SW_TITLEBAR|sciter.SW_RESIZEABLE|sciter.SW_CONTROLS|sciter.SW_MAIN,
-		&sciter.Rect{Left: 0, Top: 0, Right: 1280, Bottom: 800}, //设置初始窗口大小
+		&sciter.Rect{Left: 0, Top: 0, Right: 1400, Bottom: 900}, //设置初始窗口大小
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -280,7 +287,6 @@ func xlrzjinfo(args ...*sciter.Value) *sciter.Value {
 //协纪辩方书
 func xjbfsinfo(args ...*sciter.Value) *sciter.Value {
 	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
-	//fmt.Printf("协纪辩方书info ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
 	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, s, l, g, jq := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {
@@ -345,7 +351,7 @@ func xjbfsinfo(args ...*sciter.Value) *sciter.Value {
 	yjnames := yjs.Name //月将名
 	stars := yjs.Star   //十二宫星
 	jqs := yjs.JieQi
-	YueJiangs := "月将: " + yjnames + "\n" + "十二宫: " + stars + "\n" + "节气: " + jqs + "\n"
+	YueJiangs := "月将: " + yjnames + "\n" + "十二宫: " + stars + "\n" + jqs + "\n"
 
 	//月表
 	yjhs := xjbfs.ConvArrToS(yjh) //月总论
@@ -456,47 +462,47 @@ func qimeninfo(args ...*sciter.Value) *sciter.Value {
 	if err != nil {
 		log.Fatal("ccal-input:", err)
 	}
-	//yg := g.YearGanM
-	//yz := g.YearZhiM
-	//ygz := fmt.Sprintf("%s%s", yg, yz)
-	//mgz := g.MonthGanZhiM
-	//gzs := fmt.Sprintf("%s-%s-%s-%s\n", ygz, mgz, dgzm, hgzm)
 	///时家奇门
 	dgzm := fmt.Sprintf("%s%s", g.DayGanM, g.DayZhiM)
 	hgzm := g.HourGanZhiM
 	//这里的s.SHour是由输入的时辰转换而来
 	st := time.Date(s.SYear, time.Month(s.SMonth), s.SDay, s.SHour, 0, 0, 0, time.Local)
 	G, _ := sjqm.Result(y, dgzm, hgzm, st)
-	qms := fmt.Sprintf("时家奇门\n"+
-		"节气:%s %s %s %d局 旬首:%s 值符:%s 值使:%s\n"+
-		"一宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"八宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"三宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"四宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"五宫 ==> 九星:%s 八门:%s 暗干支:%s 地盘奇仪:%s\n"+
-		"九宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"二宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"七宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
-		"六宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n",
-		G.JieQi, G.YinYang, G.YUAN, G.N, G.XS, G.ZHIFU, G.ZHISHI,
-		G.G1[0], G.G1[1], G.G1[2], G.G1[3], G.G1[4], G.G1[5],
-		G.G8[0], G.G8[1], G.G8[2], G.G8[3], G.G8[4], G.G8[5],
-		G.G3[0], G.G3[1], G.G3[2], G.G3[3], G.G3[4], G.G3[5],
-		G.G4[0], G.G4[1], G.G4[2], G.G4[3], G.G4[4], G.G4[5],
-		G.G5[0], G.G5[1], G.G5[2], G.G5[3],
-		G.G9[0], G.G9[1], G.G9[2], G.G9[3], G.G9[4], G.G9[5],
-		G.G2[0], G.G2[1], G.G2[2], G.G2[3], G.G2[4], G.G2[5],
-		G.G7[0], G.G7[1], G.G7[2], G.G7[3], G.G7[4], G.G7[5],
-		G.G6[0], G.G6[1], G.G6[2], G.G6[3], G.G6[4], G.G6[5],
-	)
-
-	return sciter.NewValue(qms)
+	/*	//string格式返回到前端
+		qms := fmt.Sprintf("时家奇门\n"+
+			"节气:%s %s %s %d局 旬首:%s 值符:%s 值使:%s\n"+
+			"一宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"八宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"三宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"四宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"五宫 ==> 九星:%s 八门:%s 暗干支:%s 地盘奇仪:%s\n"+
+			"九宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"二宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"七宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n"+
+			"六宫 ==> 九星:%s 八门:%s 暗干支:%s 天盘奇仪:%s 八神:%s 地盘奇仪:%s\n",
+			G.JieQi, G.YinYang, G.YUAN, G.N, G.XS, G.ZHIFU, G.ZHISHI,
+			G.G1[0], G.G1[1], G.G1[2], G.G1[3], G.G1[4], G.G1[5],
+			G.G8[0], G.G8[1], G.G8[2], G.G8[3], G.G8[4], G.G8[5],
+			G.G3[0], G.G3[1], G.G3[2], G.G3[3], G.G3[4], G.G3[5],
+			G.G4[0], G.G4[1], G.G4[2], G.G4[3], G.G4[4], G.G4[5],
+			G.G5[0], G.G5[1], G.G5[2], G.G5[3],
+			G.G9[0], G.G9[1], G.G9[2], G.G9[3], G.G9[4], G.G9[5],
+			G.G2[0], G.G2[1], G.G2[2], G.G2[3], G.G2[4], G.G2[5],
+			G.G7[0], G.G7[1], G.G7[2], G.G7[3], G.G7[4], G.G7[5],
+			G.G6[0], G.G6[1], G.G6[2], G.G6[3], G.G6[4], G.G6[5],
+		)
+		return sciter.NewValue(qms)*/
+	byteg, err := json.Marshal(G)
+	if err != nil {
+		log.Fatal("奇门G", err)
+	}
+	jsG := string(byteg)
+	return sciter.NewValue(jsG)
 }
 
 //禽星
 func qinxinginfo(args ...*sciter.Value) *sciter.Value {
 	ly, lm, ld, lh, sx, lmb := args[0].String(), args[1].String(), args[2].String(), args[3].String(), args[4].String(), args[5].String()
-	//fmt.Printf("禽星info ==> %s-%s-%s-%s %s %s\n", ly, lm, ld, lh, sx, lmb)
 	y, m, d, h, b := ConvStoInt(ly, lm, ld, lh, lmb)
 	err, _, l, g, _ := ccal.Input(y, m, d, h, sx, b)
 	if err != nil {

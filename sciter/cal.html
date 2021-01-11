@@ -6,16 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
         #form {
-            text-align: left;
-            height: 30px;
+           position: absolute;
+            top: 0.5px;
+            text-align: center;
         }
 
         #btn {
-            text-align: -webkit-left;
-            height: 0.8cm;
+           position: absolute;
+            top: 50px;
+            text-align: center;
         }
 
         #show {
+            position: absolute;
+            top: 90px;
             font-size: 150%;
             white-space: pre
         }
@@ -29,26 +33,36 @@
             white-space: pre;
         }
         #formjx {
-            /*position: absolute;*/
             position: absolute;
-            text-align: center;
+            top: 50px;
             right: 10px;
-            top: 55px;
+            text-align: right;
         }
         #form1{
           position: absolute;
-            text-align: right;
-            top: 10px;
+            top: 0.5px;
             right: 85px;
+            text-align: center;
         }
         #btngzs{
             position: absolute;
-            top: 10px;
-            right: 3px;
+            top: 0.5px;
+            right: 10px;
+        }
+        .img{
+            position:absolute;
+            top:0.1px;
+            left: 800px;
+        }
+        #qimen{
+            position: absolute;
+            top: 260px;
+            left: 300px;
+            font-size: 150%;
+            white-space: pre
         }
     </style>
     <title>农历择日</title>
-
 </head>
 
 <body>
@@ -126,13 +140,13 @@
         <option value=true>是</option>
     </select>
 </form>
-<hr>
+<!--hr-->
 <!--按钮:基本纪年 择吉 择日 奇门 禽星  今日农历-->
 <div id="btn">
     <button id="btn1">纪年信息</button>
     <button id="btn2">小六壬择吉</button>
-    <button id="btn3">协纪辩方书</button>
-    <button id="btn7">奇门</button>
+    <button id="btn3" title="岁吉凶 日吉凶依据干支计算">协纪辩方书</button>
+    <button id="btn7" title="九星 八门 八神 天盘奇仪 地盘奇仪 暗干支">奇门</button>
     <button id="btn8">禽星</button>
     <button id="btn4">今日农历</button>
     <button id="btn5">24节气</button>
@@ -142,11 +156,12 @@
 <div id="show">
     <p id="p1"></p>
     <p id="p2"></p>
-    <p id="gjn"></p>
-    <p id="lmb"></p>
-    <p id="gzny"></p>
-    <p id="today"></p>
+    <p id="p4"></p>
+    <p id="p5"></p>
+    <p id="p6"></p>
 </div>
+<!--奇门九宫格-->
+<p id="qimen"></p>
 
 <!-- info 吉凶 -->
 <div id="formjx">
@@ -277,7 +292,6 @@
 </div>
 <button id="btngzs">查看</button>
 <!--干支八宫查询 end-->
-
 <!--基本纪年-->
 <script type="text/tiscript">
     function ymdhsb(){
@@ -379,6 +393,7 @@
        //stdout.println("小六壬前端数据",xlrinfo);
         var jsonData = parseData(xlrinfo);
         if(jsonData){
+            $(#qimen).value = "";
             //stdout.printf("JSON data is : %v\n", jsonData);
             $(#p2).value = jsonData.xstar_name+"\n"+jsonData.xzeji+"\n"+jsonData.x_ji_gan_arr+"\n"+jsonData.x_qi_sha_arr;
         }else{
@@ -395,6 +410,7 @@
         //stdout.println(xjinfo);
         var xjbfs = parseData(xjinfo);
         if (xjbfs){
+            $(#qimen).value = "";
             //stdout.println("xjbfs:",xjbfs.nb,xjbfs.yb,xjbfs.rb,xjbfs.bw);
             $(#p2).value = xjbfs.nb+"\n"+xjbfs.yb+"\n"+xjbfs.rb+"\n"+xjbfs.bw
         }else{
@@ -406,6 +422,7 @@
 <script type="text/tiscript">
 		$(#btn4).on("click",function(){
         var tinfo = view.todaytinfo();
+        $(#qimen).value = "";
         $(#p2).value= tinfo;
     });
 </script>
@@ -438,12 +455,42 @@
         var qmymdh = ymdhsb();
         var qms = view.qimeninfo(qmymdh.year,qmymdh.month, qmymdh.day, qmymdh.hour,qmymdh.zodiac, qmymdh.leapmb);
         //stdout.println("获取奇门前端数据:",qms);
-        $(#p2).value = qms;
+       // $(#p2).value = qms;
+       //0:九星 1:八门 2:暗干支 3:天盘奇仪 4:八神 5:地盘奇仪
+       // 1 2 3 行宽度相同 4 5 行宽度相同
+       var qmjs = parseData(qms);
+       //stdout.println(qmjs.g_1[0],qmjs.g_1[1],qmjs.g_1[2],qmjs.g_1[3],qmjs.g_1[4],qmjs.g_1[5]);
+       $(#p2).value = "";
+       $(#qimen).html=qmjs.jie_qi+" "+qmjs.yin_yang+qmjs.n+"局"+" "+qmjs.yuan+"<br>"+
+       "值符:"+qmjs.zhifu+" "+"值使:"+qmjs.zhishi+"<br>"+
+       "----------------------------------"+"<br>"+
+        qmjs.g_4[0]+"   "+"|"+qmjs.g_9[0]+"   ""|"+qmjs.g_2[0]+"   "+"|"+"<br>"+
+        qmjs.g_4[1]+"   "+"|"+qmjs.g_9[1]+"   "+"|"+qmjs.g_2[1]+"   "+"|"+"<br>"+
+        qmjs.g_4[4]+"   "+"|"+qmjs.g_9[4]+"   "+"|"+qmjs.g_2[4]+"   "+"|"+"<br>"+
+        qmjs.g_4[3]+"     "+"|"+qmjs.g_9[3]+"     "+"|"+qmjs.g_2[3]+"     "+"|"+"<br>"+
+        qmjs.g_4[5]+"     "+"|"+qmjs.g_9[5]+"     "+"|"+qmjs.g_2[5]+"     "+"|"+"<br>"+
+        qmjs.g_4[2]+"   "+"|"+qmjs.g_9[2]+"   "+"|"+qmjs.g_2[2]+"<br>"+
+        "----------------------------------"+"<br>"+
+        qmjs.g_3[0]+"   "+"|"+qmjs.g_5[0]+"   ""|"+qmjs.g_7[0]+"   "+"|"+"<br>"+
+        qmjs.g_3[1]+"   "+"|"+qmjs.g_5[1]+"       "+"|"+qmjs.g_7[1]+"   "+"|"+"<br>"+
+        qmjs.g_3[4]+"   "+"|"+qmjs.g_5[4]+"       "+"|"+qmjs.g_7[4]+"   "+"|"+"<br>"+
+        qmjs.g_3[3]+"     "+"|"+qmjs.g_5[3]+"     "+"|"+qmjs.g_7[3]+"     "+"|"+"<br>"+
+        qmjs.g_3[5]+"     "+"|"+qmjs.g_5[5]+"     "+"|"+qmjs.g_7[5]+"     "+"|"+"<br>"+
+        qmjs.g_3[2]+"   "+"|"+qmjs.g_5[2]+"   "+"|"+qmjs.g_7[2]+"<br>"+
+       "----------------------------------"+"<br>"+
+        qmjs.g_8[0]+"   "+"|"+qmjs.g_1[0]+"   ""|"+qmjs.g_6[0]+"   "+"|"+"<br>"+
+        qmjs.g_8[1]+"   "+"|"+qmjs.g_1[1]+"   "+"|"+qmjs.g_6[1]+"   "+"|"+"<br>"+
+        qmjs.g_8[4]+"   "+"|"+qmjs.g_1[4]+"   "+"|"+qmjs.g_6[4]+"   "+"|"+"<br>"+
+        qmjs.g_8[3]+"     "+"|"+qmjs.g_1[3]+"     "+"|"+qmjs.g_6[3]+"     "+"|"+"<br>"+
+        qmjs.g_8[5]+"     "+"|"+qmjs.g_1[5]+"     "+"|"+qmjs.g_6[5]+"     "+"|"+"<br>"+
+        qmjs.g_8[2]+"   "+"|"+qmjs.g_1[2]+"   "+"|"+qmjs.g_6[2]+"<br>"
+
     });
 </script>
 <!--禽星-->
 <script type="text/tiscript">
 	$(#btn8).on("click",function(){
+	    $(#qimen).value = "";
         var qinymdh = ymdhsb();
         var qxs = view.qinxinginfo(qinymdh.year,qinymdh.month, qinymdh.day, qinymdh.hour,qinymdh.zodiac, qinymdh.leapmb);
         $(#p2).value = qxs;
@@ -552,6 +599,8 @@
     });
 </script>
 <!--查询结束-->
+<p class="img"> <img src="/tmp/ccal.png"></p>
+
 </body>
 
 </html>
