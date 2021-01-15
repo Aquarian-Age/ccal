@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=ccal
+Exec=./ccal-single
+Icon=./aquarius.svg
+Terminal=false
+Type=Application
