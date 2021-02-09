@@ -18,7 +18,7 @@
 
 Name:           ccal-all
 Version:        0.6.9
-Release:        0
+Release:        6
 Summary:        ccal-all
 License:        Me
 URL:            https://github.com/Aquarian-Age/ccal/releases 
@@ -59,3 +59,4 @@ rm -rf %{buildroot}/cal.tis
 /usr/local/share/icons/fire.svg
 
 %changelog
+qiMen yueJiang

@@ -2,6 +2,11 @@ package main
 
 import (
 	"fmt"
+	"image/color"
+	"log"
+	"os"
+	"time"
+
 	"gioui.org/app"
 	"gioui.org/font/gofont"
 	"gioui.org/font/opentype"
@@ -14,18 +19,14 @@ import (
 	"gioui.org/widget/material"
 	"gioui.org/x/outlay"
 	"github.com/gonoto/notosans"
-	"image/color"
 	"liangzi.local/cal/cal"
-	"log"
-	"os"
-	"time"
 )
 
 func main() {
 	go func() {
 		w := app.NewWindow(
 			app.Size(unit.Dp(380), unit.Dp(420)),
-			app.Title("Simple"),
+			app.Title("干支历"),
 		)
 		if err := loop(w); err != nil {
 			log.Fatal(err)
@@ -265,8 +266,8 @@ var (
 type UI struct {
 	Theme *material.Theme
 	list  layout.List
-	ed   widget.Editor
-	btns Btns
+	ed    widget.Editor
+	btns  Btns
 }
 type Btns struct {
 	btn  widget.Clickable
@@ -274,6 +275,6 @@ type Btns struct {
 	btn2 widget.Clickable
 	btn3 widget.Clickable
 	btn4 widget.Clickable //本月
-	num int
-	ed widget.Editor
+	num  int
+	ed   widget.Editor
 }
