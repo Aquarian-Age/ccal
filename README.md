@@ -1,5 +1,7 @@
 
-### ccal 农历择吉的UI界面源码
+### ccal 阴阳历法 协纪辩方书择日的UI界面源码
+
+**本软件仅适用openSUSE Tumbleweed**
 
 - [下载](https://github.com/Aquarian-Age/ccal/releases)
 
