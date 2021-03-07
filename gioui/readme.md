@@ -1,4 +1,9 @@
+### multiwindow是根据作者示例更改而来
+实现了多窗口单独管理　可操作性强
+
+
 ### 协纪辩方书择日+金符经+地母经+朔望+生肖太岁
+
 ![xjbfs](./xjbfs/xjbfs.gif)
 
 ### cal-simplev9
