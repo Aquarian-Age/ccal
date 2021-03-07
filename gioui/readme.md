@@ -11,7 +11,6 @@
  没有日的选项 在非本月点击下个月有时候会出现干支跳过一个月份的现象
 
   ![simplev9](./cal-simplev9/calSimplev9.gif)
- ![simplev9](./cal-simplev9/calSimplev9.png)
 
  ### cal-v0.6.9-9
 
