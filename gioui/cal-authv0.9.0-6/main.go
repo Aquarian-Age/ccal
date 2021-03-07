@@ -424,7 +424,7 @@ var aboutZR = `
 func main() {
 	go func() {
 		w := app.NewWindow(
-			app.Size(unit.Dp(620), unit.Dp(600)),
+			app.Size(unit.Dp(600), unit.Dp(640)),
 			app.MaxSize(unit.Dp(620), unit.Dp(800)),
 			app.Title("干支历"),
 		)
@@ -522,12 +522,12 @@ func (ed *Edit) LayoutShow(gtx layout.Context, th *material.Theme) layout.Dimens
 		space,
 		////月历
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return hGrid.Layout(gtx, ed.num, func(gtx layout.Context, i int) layout.Dimensions {
+			return hGrid.Layout(gtx, len(listM.s), func(gtx layout.Context, i int) layout.Dimensions {
 				s := fmt.Sprintf("    %s\n", listM.s[i]+"\n"+listM.g[i]+"\n"+listM.l[i]+"\n"+listM.qin[i])
 				body := material.Body1(th, s)
 				body.Font = text.Font{Typeface: "Noto"}
-				body.Alignment = text.Middle //text.Start
-				body.TextSize = unit.Dp(18)
+				body.Alignment = text.Middle
+				body.TextSize = unit.Dp(16)
 				///今日颜色
 				if findDay() == i && listM.qsb[i] == true {
 					maroon := color.NRGBA{R: 255, G: 0, B: 0, A: 255}
@@ -642,7 +642,7 @@ func NewUI() *UI {
 	ui := &UI{}
 	ui.Theme = utf8Font()
 	ui.edits.Inits()
-	ui.edits.num = 30
+	//ui.edits.num = len(listM.s)
 
 	return ui
 }
