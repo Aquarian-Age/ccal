@@ -2,29 +2,25 @@ package main
 
 import (
 	"context"
-	"log"
+	"gioui.org/unit"
 	"os"
 	"os/signal"
 	"sync"
 
-	"gioui.org/font/opentype"
-	"gioui.org/text"
-
 	"gioui.org/app"
-	"gioui.org/io/system"
-	"gioui.org/layout"
-	"gioui.org/op"
 	"gioui.org/widget/material"
 )
 
 func main() {
+
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
 	go func() {
 		a := NewApplication(ctx)
-		letters := NewLetters()
-		a.NewWindow("日禽", letters)
+		letters := NewBFYQWindow()
+		a.NewWindow("演禽", letters,
+			app.Size(unit.Dp(900), unit.Dp(600)))
 		a.Wait()
 		os.Exit(0)
 	}()
@@ -46,20 +42,6 @@ func NewApplication(ctx context.Context) *Application {
 		Shutdown: cancel,
 		Theme:    utf8Font(),
 	}
-}
-
-//utf8
-func utf8Font() *material.Theme {
-	f, err := os.Open("font/MaShanZheng_Regular.ttf")
-	if err != nil {
-		log.Fatal(err)
-	}
-	ttf, err := opentype.ParseCollectionReaderAt(f)
-	if err != nil {
-		log.Println(err)
-	}
-	th := material.NewTheme([]text.FontFace{{Face: ttf}})
-	return th
 }
 
 func (a *Application) Wait() {
@@ -86,27 +68,4 @@ type Window struct {
 
 type View interface {
 	Run(w *Window) error
-}
-
-type WidgetView func(gtx layout.Context) layout.Dimensions
-
-func (view WidgetView) Run(w *Window) error {
-	var ops op.Ops
-
-	applicationClose := w.App.Context.Done()
-	for {
-		select {
-		case <-applicationClose:
-			return nil
-		case e := <-w.Events():
-			switch e := e.(type) {
-			case system.DestroyEvent:
-				return e.Err
-			case system.FrameEvent:
-				gtx := layout.NewContext(&ops, e)
-				view(gtx)
-				e.Frame(gtx.Ops)
-			}
-		}
-	}
 }
