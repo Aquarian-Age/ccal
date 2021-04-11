@@ -1,13 +1,4 @@
-// SPDX-License-Identifier: Unlicense OR MIT
-
 package main
-
-// This projects demonstrates one way to manage and use multiple windows.
-//
-// It shows:
-//   * how to track multiple windows,
-//   * how to communicate between windows,
-//   * how to create new windows.
 
 import (
 	"context"
@@ -77,7 +68,7 @@ func (a *Application) NewWindow(title string, view View, opts ...app.Option) {
 	a.active.Add(1)
 	go func() {
 		defer a.active.Done()
-		view.Run(w)
+		_ = view.Run(w)
 	}()
 }
 

@@ -28,8 +28,10 @@ type LetterListItem struct {
 func NewLetters() *Letters {
 	view := &Letters{
 		list: layout.List{Axis: layout.Vertical},
+		//layout.Rigid(layout.Spacer{Width: unit.Dp(13)}.Layout), //小部件间距
 	}
-	for text := 'a'; text <= 'f'; text++ {
+
+	for text := 'a'; text <= 'z'; text++ {
 		view.items = append(view.items, &LetterListItem{Text: string(text)})
 	}
 	return view
@@ -38,7 +40,8 @@ func NewLetters() *Letters {
 // Run implements Window.Run method.
 func (v *Letters) Run(w *Window) error {
 	v.win = w
-	return WidgetView(v.Layout).Run(w)
+	return wly(v.LayoutN).Run(w)
+	//return WidgetView(v.Layout).Run(w)
 }
 
 // Layout handles drawing the letters view.
@@ -88,9 +91,12 @@ func (v *Letters) Layout(gtx layout.Context) layout.Dimensions {
 		}
 		//btn 竖列布局
 		return layout.Flex{}.Layout(gtx,
-			layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			layout.Flexed(10, func(gtx layout.Context) layout.Dimensions {
 				return material.Button(th, &item.Click, item.Text).Layout(gtx)
 			}),
+			//layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			//	return material.Button(th, &item.Click, item.Text).Layout(gtx)
+			//}),
 		)
 	})
 }
