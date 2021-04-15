@@ -15,7 +15,8 @@ import (
 )
 
 func init() {
-	_ = os.Setenv("FYNE_FONT", "font/SourceHanSerifCN-SemiBold.ttf")
+	//	_ = os.Setenv("FYNE_FONT", "font/SourceHanSerifCN-SemiBold.ttf")
+	_ = os.Setenv("FYNE_FONT", "/system/fonts/SourceHanSerifCN-SemiBold.ttf") //apk字体
 }
 func main() {
 	a := app.New()
