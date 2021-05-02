@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>演禽</title>
+    <style>
+    </style>
+</head>
+<body>
+<div id="slectymd" style="text-align: center;">
+    <form action="/" style="text-align: center; height: 30px;" id="form1" method="POST" name="myform"
+          onsubmit="return formonsub()">
+        <!-- 下拉年 -->
+        <select name="ly" id="yearid" style="height: 0.8cm;" onchange="selectY()">
+            <script>
+                var d = new Date();
+                var year = d.getFullYear(); //当前年数字
+                console.log(year);
+                var yearSelect = document.getElementById("yearid");
+                for (var i = 1601; i <= 3498; i++) {
+                    var opt = document.createElement("option"); //生成option
+                    opt.value = i;
+                    opt.text = i + "年";
+                    yearSelect.appendChild(opt); //添加option到select
+                }
+                //添加select到from1表单
+                document.body.appendChild(document.getElementById("form1"));
+
+                //默认显示本年数字
+                var def = year;
+                document.getElementsByName("ly")[0].value = def;
+            </script>
+        </select>
+        <!-- 下拉月份 -->
+        <select id="monthid" name="lm" style="height: 0.8cm;">
+            <script>
+                var monthSelect = document.getElementById("monthid");
+                for (var i = 1; i <= 12; i++) {
+                    var opt = document.createElement("option"); //生成option
+                    opt.value = i;
+                    opt.text = i + "月";
+                    monthSelect.appendChild(opt); //添加option到select
+                }
+                document.body.appendChild(document.getElementById("form1"));
+            </script>
+        </select>
+        <!-- 下拉日期 -->
+        <select id="dayid" name="ld" style="height: 0.8cm;">
+            <script>
+                var dSelect = document.getElementById("dayid");
+                for (var i = 1; i <= 31; i++) {
+                    var opt = document.createElement("option"); //生成option
+                    opt.value = i;
+                    opt.text = i + "日";
+                    dSelect.appendChild(opt); //添加option到select
+                }
+                document.body.appendChild(document.getElementById("form1"));
+            </script>
+        </select>
+        <!-- 时辰 子时1 丑时2 寅时3... -->
+        <select id="hourid" name="lh" style="height: 0.8cm;">
+            <script>
+                var hSelect = document.getElementById("hourid");
+                // var zhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+                // var aliasZhi = ["23~1", "1~3", "3~5", "5~7", "7~9", "9~11", "11~13", "13~15", "15~17", "17~19", "19~21", "21~23"];
+                for (var i = 0; i <= 23; i++) {
+                    var opt = document.createElement("option");
+                    opt.value = i;
+                    opt.text = i + "点";//zhi[i] + "时" + aliasZhi[i];
+                    hSelect.appendChild(opt);
+                }
+                document.body.appendChild(document.getElementById("form1"));
+            </script>
+        </select>
+        <input type="submit" style="height: 0.8cm;"/>
+    </form>
+</div>
+<!--Btn-->
+<div style="text-align: center;">
+    <tr>
+        <td>
+            <button id="qkBtn" onclick="QiKe()">起课</button>
+<!--            <button id="dmjBtn" onclick="dmj()">地母经</button>-->
+<!--            <button id="zejiBtn" onclick="zeji()">小六壬择吉</button>-->
+        </td>
+    </tr>
+</div>
+
+<!--show-->
+<p id="jninfo"></p>
+
+<!--scripts-->
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    //提交表单数据到服务器
+    function formonsub() {
+        //表单验证
+        var x = document.forms["form1"]["ly"].value;
+        if (x == null || x === "") {
+            alert("^_^");
+            return false;
+        }
+        if (x < 1601 || x > 3498) {
+            alert("时间范围1601-3498");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: $('#form1').serialize()
+        });
+        return false;
+    }
+</script>
+
+<script>
+    //纪年信息
+    function QiKe() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/",
+            data: $('#form1').serialize(),
+            success: function (data) {
+                console.log(JSON.parse(data));
+                var js = JSON.parse(data);
+                var p = document.getElementById("jninfo")
+                p.innerHTML = js.year + "年-" + js.month + "月-" + js.day + "日-" + js.hour + "时" + "周" + js.week + "<br>" +
+                    js.ygz + "年-" + js.mgz + "月-" + js.dgz + "日-" + js.hgz + "时" + "<br>" +
+                    js.nian_qin + "-" + js.yue_qin + "-" + js.ri_qin + "-" + js.shi_qin + "<br>" +
+                    "畨禽:" + js.fan_qin + "活曜:" + js.huo_yao + "<br>" +
+                    "将头:" + js.jiang_tou + "<br>" +
+                    "" + js.fu_jiang_ta + " " + js.fu_jiang_wo + "<br>";
+            },
+            error: function (data) {
+                alert("纪年异常！");
+            }
+        });
+    }
+</script>
+</body>
+</html>
