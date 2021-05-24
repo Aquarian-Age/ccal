@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<button id="btn" onclick=btnx()>btn</button>
+
+<div>
+    <label id="hai">亥</label>
+    <label id="zi">子</label>
+    <label id="chou">丑</label>
+    <label id="yin">寅</label>
+    <label id="mao">卯</label>
+    <label id="chen">辰</label>
+    <label id="si">巳</label>
+    <label id="wu">午</label>
+    <label id="wei">未</label>
+    <label id="shen">申</label>
+    <label id="you">酉</label>
+    <label id="xu">戌</label>
+</div>
+
+
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    function btnx() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/",
+            data: $('#btn').serialize(),
+            success: function (data) {
+                var js = JSON.parse(data);
+                // console.log("json.map-->",js.map)
+                var obj = js.map
+                var map = new Map(Object.entries(obj));
+                //console.log("map--> ",map)
+
+                var haip = document.getElementById("hai")
+                var yinp = document.getElementById("yin")
+                yinp.innerHTML = ""
+                haip.innerHTML = ""
+                for (let [key, value] of map.entries()) {
+                    console.log(key+"=="+value);
+                    if (value === "亥") {
+                        haip.innerHTML += " " + key
+                    }
+                    if (value === "寅") {
+                        yinp.innerHTML += " " + key
+                    }
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+</script>
+</body>
+</html>
