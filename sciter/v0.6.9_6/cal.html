@@ -1,0 +1,306 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <TItle>阴阳历</TItle>
+    <style>
+        .tabs tr, td {
+            text-align: center;
+            width: 3px;
+        }
+        .img1{
+            position: fixed;
+            bottom: 3px;
+            right: 3px;
+            padding: 8px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form">
+    <!-- 下拉年 -->
+    <select id="yearid" name="year">
+        <script type="text/tiscript">
+		var t = new Date();
+        var select = $(select#yearid);
+        for( var i = 1601; i <= 3498; ++i ){
+          select.options.append(<option value={i}>{i}年</option>);
+            var s = select.text;
+            select.value=t.year;
+        }
+        </script>
+    </select>
+    <!-- 下拉月份 -->
+    <select id="monthid" name="month">
+        <option value=" ">阳历月</option>
+        <script type="text/tiscript">
+				var marr=["正月(寅)", "二月(卯)", "三月(辰)", "四月(巳)", "五月(午)", "六月(未)", "七月(申)", "八月(酉)", "九月(戌)", "十月(亥)", "十一月(子)", "十二月(丑)"]
+				var selectm= $(select#monthid);
+				for (var i =0;i<12;++i){
+				    selectm.options.append(<option value={i+1}>{marr[i]}</option>);
+					var m = select.text;
+					selectm.value = t.month;
+				}
+        </script>
+    </select>
+    <!-- 下拉日期 -->
+    <select id="dayid" name="day">
+        <option value=" ">阳历日</option>
+        <script type="text/tiscript">
+				var selectd= $(select#dayid);
+				var darr = ["初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+				"十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+				"廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
+				for (var i =1;i<31;++i){
+					selectd.options.append(<option value={i}>{darr[i-1]}</option>);
+					var d = select.text;
+                        if (t.day ==31){
+                            selectd.value = t.day-1;
+                        }else{
+                            selectd.value = t.day;
+                        }
+				}
+        </script>
+    </select>
+
+    <select id="hourid" name="hour">
+        <option value=" ">阳历时</option>
+        <script type="text/tiscript">
+				var selecth =$(select#hourid);
+				var harr = ["0点","1点","2点","3点","４点","5点","6点","7点","8点","9点","10点","11点",
+							"12点","13点","14点","15点","16点","17点","18点","19点","20点","21点","22点","23点"]
+				for (var i =0;i<24;++i){
+				  selecth.options.append(<option value={i}>{harr[i]}</option>);
+				  var h = select.text;
+					selecth.value = t.hour;
+				}
+        </script>
+    </select>
+        <button #btn1 title="单击左键显示 单击右键消除">纪年信息</button>
+        <button #btn2 title="单击左键显示 单击右键消除">月历</button>
+        <button #btn3 >关于</button>
+</form>
+    <p id="p1" style="font-size:20px"></p>
+    <p id="p2" style="text-align: center;font-size:20px"></p>
+
+    <table id="tables" class="tabs" rules="all" width="100%">
+        <tr class="menu">
+            <td #1 style="font-size:20px"></td>
+            <td #2 style="font-size:20px"></td>
+            <td #3 style="font-size:20px"></td>
+            <td #4 style="font-size:20px"></td>
+            <td #5 style="font-size:20px"></td>
+            <td #6 style="font-size:20px"></td>
+        </tr>
+        <td #line1></td>
+        <tr class="menu">
+            <td #7 style="font-size:20px"></td>
+            <td #8 style="font-size:20px"></td>
+            <td #9 style="font-size:20px"></td>
+            <td #10 style="font-size:20px"></td>
+            <td #11 style="font-size:20px"></td>
+            <td #12 style="font-size:20px"></td>
+        </tr>
+        <td #line2></td>
+        <tr class="menu">
+            <td #13 style="font-size:20px"></td>
+            <td #14 style="font-size:20px"></td>
+            <td #15 style="font-size:20px"></td>
+            <td #16 style="font-size:20px"></td>
+            <td #17 style="font-size:20px"></td>
+            <td #18 style="font-size:20px"></td>
+        </tr>
+        <td #line3></td>
+        <tr class="menu">
+            <td #19 style="font-size:20px"></td>
+            <td #20 style="font-size:20px"></td>
+            <td #21 style="font-size:20px"></td>
+            <td #22 style="font-size:20px"></td>
+            <td #23 style="font-size:20px"></td>
+            <td #24 style="font-size:20px"></td>
+        </tr>
+        <td #line4></td>
+        <tr class="menu">
+            <td #25 style="font-size:20px"></td>
+            <td #26 style="font-size:20px"></td>
+            <td #27 style="font-size:20px"></td>
+            <td #28 style="font-size:20px"></td>
+            <td #29 style="font-size:20px"></td>
+            <td #30 style="font-size:20px"></td>
+        </tr>
+        <td #line5></td>
+    </table>
+
+    <script type="text/tiscript">
+		//下拉列表数据
+		function ymdhsb() {
+			//年
+			var opt = $(select[name = 'year']).$$(option);
+			var ly = 0;
+			for (var child in opt) {
+				if (child.getState(Element.STATE_CHECKED)) {
+					ly = child.value;
+				}
+			}
+			//月
+			var optm = $(select[name = 'month']).$$(option);
+			var lm = 0;
+			for (var child in optm) {
+				if (child.getState(Element.STATE_CHECKED)) {
+					lm = child.value;
+				}
+			}
+			//日
+			var optd = $(select[name = 'day']).$$(option);
+			var ld = 0;
+			for (var child in optd) {
+				if (child.getState(Element.STATE_CHECKED)) {
+					ld = child.value;
+				}
+			}
+			//时辰
+			var opth = $(select[name = 'hour']).$$(option);
+			var lh = 0;
+			for (var child in opth) {
+				if (child.getState(Element.STATE_CHECKED)) {
+					lh = child.value;
+				}
+			}
+			
+			var formData = {
+				"year": ly,
+				"month": lm,
+				"day": ld,
+				"hour": lh,
+			};
+			return formData;
+		}
+		
+		//基本纪年信息
+		$(#btn1).on("click", function () {
+			var infoymdh = ymdhsb();
+			var info = view.ymdinfo(infoymdh.year, infoymdh.month, infoymdh.day, infoymdh.hour, infoymdh.zodiac, infoymdh.leapmb);
+			var jsonData = parseData(info);//解析json
+			if (jsonData) {
+				$(#p1).html = jsonData.sjn + "<br>" + jsonData.ljn + "<br>" + jsonData.gjn + "<br>" + jsonData.ny + "<br>" + jsonData.lmb;
+			} else {
+				stdout.println("No data");
+			}
+		});
+		//设置鼠标右键点击
+		$(#btn1).on("mouseup", function (evt) {
+			if (evt.propButton) {
+				//stdout.println("鼠标右键点击");
+				$(#p1).value = "";//鼠标右键点击 清空纪年信息
+				return false;
+			}
+		});
+		
+		$(#btn2).on("click", function () {
+			var ylb = ymdhsb();
+			var getn = view.yuelibiao(ylb.year, ylb.month, ylb.day, ylb.hour, ylb.zodiac, ylb.leapmb);
+			var obj = parseData(getn);
+			var s = obj.sdays;//阳历数组
+			var l = obj.ldays;
+			var g = obj.gzhis;
+			var jc= obj.jian_chu_arr;
+			var hh = obj.huang_hei_arr;
+			var star = obj.star_arr;
+			var today = obj.s;
+			$(#p2).html =today;
+			if (obj.sdays.length == 31) {
+				$(#1).html = s[0] + "<br>" + l[0] + "<br>" + g[0]+" " +jc[0] +" "+ hh[0] + "<br>" + star[0] + "<br>"
+				$(#2).html = s[1] + "<br>" + l[1] + "<br>" + g[1]+" " +jc[1] +" "+ hh[1] + "<br>" + star[1] + "<br>"
+				$(#3).html = s[2] + "<br>" + l[2] + "<br>" + g[2]+" " +jc[2] +" "+ hh[2] + "<br>" + star[2] + "<br>"
+				$(#4).html = s[3] + "<br>" + l[3] + "<br>" + g[3]+" " +jc[3] +" "+ hh[3] + "<br>" + star[3] + "<br>"
+				$(#5).html = s[4] + "<br>" + l[4] + "<br>" + g[4]+" " +jc[4] +" "+ hh[4] + "<br>" + star[4] + "<br>"
+				$(#6).html = s[5] + "<br>" + l[5] + "<br>" + g[5]+" " +jc[5] +" "+ hh[5] + "<br>" + star[5] + "<br>"
+				$(#line1).html = "<br>"
+				$(#7).html = s[6] + "<br>" + l[6] + "<br>" + g[6]+" " +jc[6] +" "+ hh[6] + "<br>" + star[6] + "<br>"
+				$(#8).html = s[7] + "<br>" + l[7] + "<br>" + g[7]+" " +jc[7] +" "+ hh[7] + "<br>" + star[7] + "<br>"
+				$(#9).html = s[8] + "<br>" + l[8] + "<br>" + g[8]+" " +jc[8] +" "+ hh[8] + "<br>" + star[8] + "<br>"
+				$(#10).html = s[9] + "<br>" + l[9] + "<br>" + g[9]+" " +jc[9] +" "+ hh[9] + "<br>" + star[9] + "<br>"
+				$(#11).html = s[10] + "<br>" + l[10] + "<br>" + g[10]+" " +jc[10] +" "+ hh[10] + "<br>" + star[10] + "<br>"
+				$(#12).html = s[11] + "<br>" + l[11] + "<br>" + g[11]+" " +jc[11] +" "+ hh[11] + "<br>" + star[11] + "<br>"
+				$(#line2).html = "<br>"
+				$(#13).html = s[12] + "<br>" + l[12] + "<br>" + g[12]+" " +jc[12] +" "+ hh[12] + "<br>" + star[12] + "<br>"
+				$(#14).html = s[13] + "<br>" + l[13] + "<br>" + g[13]+" " +jc[13] +" "+ hh[13] + "<br>" + star[13] + "<br>"
+				$(#15).html = s[14] + "<br>" + l[14] + "<br>" + g[14]+" " +jc[14] +" "+ hh[14] + "<br>" + star[14] + "<br>"
+				$(#16).html = s[15] + "<br>" + l[15] + "<br>" + g[15]+" " +jc[15] +" "+ hh[15] + "<br>" + star[15] + "<br>"
+				$(#17).html = s[16] + "<br>" + l[16] + "<br>" + g[16]+" " +jc[16] +" "+ hh[16] + "<br>" + star[16] + "<br>"
+				$(#18).html = s[17] + "<br>" + l[17] + "<br>" + g[17]+" " +jc[17] +" "+ hh[17] + "<br>" + star[17] + "<br>"
+				$(#line3).html = "<br>"
+				$(#19).html = s[18] + "<br>" + l[18] + "<br>" + g[18]+" " +jc[18] +" "+ hh[18] + "<br>" + star[18] + "<br>"
+				$(#20).html = s[19] + "<br>" + l[19] + "<br>" + g[19]+" " +jc[19] +" "+ hh[19] + "<br>" + star[19] + "<br>"
+				$(#21).html = s[20] + "<br>" + l[20] + "<br>" + g[20]+" " +jc[20] +" "+ hh[20] + "<br>" + star[20] + "<br>"
+				$(#22).html = s[21] + "<br>" + l[21] + "<br>" + g[21]+" " +jc[21] +" "+ hh[21] + "<br>" + star[21] + "<br>"
+				$(#23).html = s[22] + "<br>" + l[22] + "<br>" + g[22]+" " +jc[22] +" "+ hh[22] + "<br>" + star[22] + "<br>"
+				$(#24).html = s[23] + "<br>" + l[23] + "<br>" + g[23]+" " +jc[23] +" "+ hh[23] + "<br>" + star[23] + "<br>"
+				$(#line4).html = "<br>"
+				$(#25).html = s[24] + "<br>" + l[24] + "<br>" + g[24]+" " +jc[24] +" "+ hh[24] + "<br>" + star[24] + "<br>"
+				$(#26).html = s[25] + "<br>" + l[25] + "<br>" + g[25]+" " +jc[25] +" "+ hh[25] + "<br>" + star[25] + "<br>"
+				$(#27).html = s[26] + "<br>" + l[26] + "<br>" + g[26]+" " +jc[26] +" "+ hh[26] + "<br>" + star[26] + "<br>"
+				$(#28).html = s[27] + "<br>" + l[27] + "<br>" + g[27]+" " +jc[27] +" "+ hh[27] + "<br>" + star[27] + "<br>"
+				$(#29).html = s[28] + "<br>" + l[28] + "<br>" + g[28]+" " +jc[28] +" "+ hh[28] + "<br>" + star[28] + "<br>"
+				$(#30).html = s[29] + "<br>" + l[29] + "<br>" + g[29]+" " +jc[29] +" "+ hh[29] + "<br>" + star[29] + "<br>"
+				$(#31).html = s[30] + "<br>" + l[30] + "<br>" + g[30]+" " +jc[30] +" "+ hh[30] + "<br>" + star[30] + "<br>"
+				$(#line5).html = "<br>"
+			} else if (obj.sdays.length == 30) {
+				$(#1).html = s[0] + "<br>" + l[0] + "<br>" + g[0]+" " +jc[0] +" "+ hh[0] + "<br>" + star[0] + "<br>"
+				$(#2).html = s[1] + "<br>" + l[1] + "<br>" + g[1]+" " +jc[1] +" "+ hh[1] + "<br>" + star[1] + "<br>"
+				$(#3).html = s[2] + "<br>" + l[2] + "<br>" + g[2]+" " +jc[2] +" "+ hh[2] + "<br>" + star[2] + "<br>"
+				$(#4).html = s[3] + "<br>" + l[3] + "<br>" + g[3]+" " +jc[3] +" "+ hh[3] + "<br>" + star[3] + "<br>"
+				$(#5).html = s[4] + "<br>" + l[4] + "<br>" + g[4]+" " +jc[4] +" "+ hh[4] + "<br>" + star[4] + "<br>"
+				$(#6).html = s[5] + "<br>" + l[5] + "<br>" + g[5]+" " +jc[5] +" "+ hh[5] + "<br>" + star[5] + "<br>"
+				$(#line1).html = "<br>"
+				$(#7).html = s[6] + "<br>" + l[6] + "<br>" + g[6]+" " +jc[6] +" "+ hh[6] + "<br>" + star[6] + "<br>"
+				$(#8).html = s[7] + "<br>" + l[7] + "<br>" + g[7]+" " +jc[7] +" "+ hh[7] + "<br>" + star[7] + "<br>"
+				$(#9).html = s[8] + "<br>" + l[8] + "<br>" + g[8]+" " +jc[8] +" "+ hh[8] + "<br>" + star[8] + "<br>"
+				$(#10).html = s[9] + "<br>" + l[9] + "<br>" + g[9]+" " +jc[9] +" "+ hh[9] + "<br>" + star[9] + "<br>"
+				$(#11).html = s[10] + "<br>" + l[10] + "<br>" + g[10]+" " +jc[10] +" "+ hh[10] + "<br>" + star[10] + "<br>"
+				$(#12).html = s[11] + "<br>" + l[11] + "<br>" + g[11]+" " +jc[11] +" "+ hh[11] + "<br>" + star[11] + "<br>"
+				$(#line2).html = "<br>"
+				$(#13).html = s[12] + "<br>" + l[12] + "<br>" + g[12]+" " +jc[12] +" "+ hh[12] + "<br>" + star[12] + "<br>"
+				$(#14).html = s[13] + "<br>" + l[13] + "<br>" + g[13]+" " +jc[13] +" "+ hh[13] + "<br>" + star[13] + "<br>"
+				$(#15).html = s[14] + "<br>" + l[14] + "<br>" + g[14]+" " +jc[14] +" "+ hh[14] + "<br>" + star[14] + "<br>"
+				$(#16).html = s[15] + "<br>" + l[15] + "<br>" + g[15]+" " +jc[15] +" "+ hh[15] + "<br>" + star[15] + "<br>"
+				$(#17).html = s[16] + "<br>" + l[16] + "<br>" + g[16]+" " +jc[16] +" "+ hh[16] + "<br>" + star[16] + "<br>"
+				$(#18).html = s[17] + "<br>" + l[17] + "<br>" + g[17]+" " +jc[17] +" "+ hh[17] + "<br>" + star[17] + "<br>"
+				$(#line3).html = "<br>"
+				$(#19).html = s[18] + "<br>" + l[18] + "<br>" + g[18]+" " +jc[18] +" "+ hh[18] + "<br>" + star[18] + "<br>"
+				$(#20).html = s[19] + "<br>" + l[19] + "<br>" + g[19]+" " +jc[19] +" "+ hh[19] + "<br>" + star[19] + "<br>"
+				$(#21).html = s[20] + "<br>" + l[20] + "<br>" + g[20]+" " +jc[20] +" "+ hh[20] + "<br>" + star[20] + "<br>"
+				$(#22).html = s[21] + "<br>" + l[21] + "<br>" + g[21]+" " +jc[21] +" "+ hh[21] + "<br>" + star[21] + "<br>"
+				$(#23).html = s[22] + "<br>" + l[22] + "<br>" + g[22]+" " +jc[22] +" "+ hh[22] + "<br>" + star[22] + "<br>"
+				$(#24).html = s[23] + "<br>" + l[23] + "<br>" + g[23]+" " +jc[23] +" "+ hh[23] + "<br>" + star[23] + "<br>"
+				$(#line4).html = "<br>"
+				$(#25).html = s[24] + "<br>" + l[24] + "<br>" + g[24]+" " +jc[24] +" "+ hh[24] + "<br>" + star[24] + "<br>"
+				$(#26).html = s[25] + "<br>" + l[25] + "<br>" + g[25]+" " +jc[25] +" "+ hh[25] + "<br>" + star[25] + "<br>"
+				$(#27).html = s[26] + "<br>" + l[26] + "<br>" + g[26]+" " +jc[26] +" "+ hh[26] + "<br>" + star[26] + "<br>"
+				$(#28).html = s[27] + "<br>" + l[27] + "<br>" + g[27]+" " +jc[27] +" "+ hh[27] + "<br>" + star[27] + "<br>"
+				$(#29).html = s[28] + "<br>" + l[28] + "<br>" + g[28]+" " +jc[28] +" "+ hh[28] + "<br>" + star[28] + "<br>"
+				$(#30).html = s[29] + "<br>" + l[29] + "<br>" + g[29]+" " +jc[29] +" "+ hh[29] + "<br>" + star[29] + "<br>"
+				$(#line5).html = "<br>"
+			}
+		});
+		//设置鼠标右键点击
+		$(#btn2).on("mouseup", function (evt) {
+			if (evt.propButton) {
+			   $(#p2).value ="";
+			   for(var i=1;i<=31;++i){
+				   $(#{i}).value = "";//鼠标右键点击 清空纪年信息
+			   }
+				return false;
+			}
+		});
+		
+		$(#btn3).on("click",function(){
+				view.msgbox("ccal 一款简洁的中国农历软件\n"+"[项目主页]:https://github.com/Aquarian-Age/ccal"+"\n");
+		});
+	</script>
+</body>
+
+</html>
+
