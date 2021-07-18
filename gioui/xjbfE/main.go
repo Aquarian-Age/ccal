@@ -202,7 +202,7 @@ func (ui *UI) btnLayout(gtx layout.Context) layout.Dimensions {
 	return layout.Flex{}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 			return wb.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return layout.UniformInset(unit.Dp(2)).Layout(gtx,
+				return layout.UniformInset(unit.Dp(6)).Layout(gtx,
 					material.Editor(ui.th, &ui.input, "2021010203").Layout)
 			})
 		}),
