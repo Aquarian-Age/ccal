@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=ziwei
+Exec=/usr/bin/ziwei
+Icon=/usr/share/icons/ziwei.png
+Terminal=false
+Type=Application

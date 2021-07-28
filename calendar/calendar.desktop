@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=calendar
+Exec=/usr/bin/calendar
+Icon=/usr/share/icons/calendar.png
+Terminal=false
+Type=Application

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=sjqm-govcl
+Exec=/usr/bin/sjqm-govcl
+Icon=/usr/share/icons/sjqm-govcl.svg
+Terminal=false
+Type=Application

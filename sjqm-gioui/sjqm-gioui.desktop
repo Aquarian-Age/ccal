@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=sjqm-gioui
+Exec=/usr/bin/sjqm-gioui
+Icon=/usr/share/icons/sjqm-gioui.png
+Terminal=false
+Type=Application

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=ctzw
+Exec=/usr/bin/ctzw
+Icon=/usr/share/icons/ctzw.png
+Terminal=false
+Type=Application

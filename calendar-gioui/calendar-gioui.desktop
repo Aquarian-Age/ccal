@@ -1,0 +1,7 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=干支历
+Exec=/usr/bin/calendar-gioui
+Icon=/usr/share/icons/calendar-gioui.svg
+Terminal=false
+Type=Application
