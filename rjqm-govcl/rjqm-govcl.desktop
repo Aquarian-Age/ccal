@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=rjqm-govcl
+Exec=/usr/local/bin/rjqm-govcl
+Icon=/usr/local/share/icons/rjqm-govcl.png
+Terminal=false
+Type=Application
