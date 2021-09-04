@@ -32,6 +32,8 @@ type TMainForm struct {
 	jieLuWu, jieLuWei, jieLuShen, jieLuYou, jieLuXu, jieLuHai                               *vcl.TLabel //截路空
 	tianYiZi, tianYiChou, tianYiYin, tianYiMao, tianYiChen, tianYiSi                        *vcl.TLabel //天乙贵人
 	tianYiWu, tianYiWei, tianYiShen, tianYiYou, tianYiXu, tianYiHai                         *vcl.TLabel //天乙贵人
+	wuBuYuZi, wuBuYuChou, wuBuYuYin, wuBuYuMao, wuBuYuChen, wuBuYuSi                        *vcl.TLabel //五不遇
+	wuBuYuWu, wuBuYuWei, wuBuYuShen, wuBuYuYou, wuBuYuXu, wuBuYuHai                         *vcl.TLabel //五不遇
 	local1, local8, local3, local4, local9, local2, local7, local6, local5                  *vcl.TLabel //未动方位
 }
 
@@ -173,7 +175,7 @@ func (f *TMainForm) OnFormBtnOK(sender vcl.IObject) {
 func (f *TMainForm) OnBtnAbout(sender vcl.IObject) {
 	s := `
 日家奇门
-0.0.0
+0.0.6
 作者邮箱: bGlhbmd6aTIwMjFAeWFuZGV4LmNvbQo="
 `
 	vcl.ShowMessageFmt("%s", s)

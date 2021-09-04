@@ -9,7 +9,7 @@
 # set -v
 # go get -u github.com/ying32/liblclbinres
 app="rjqm-govcl"
-version="0.0.0" 
+version="0.0.6" 
 v=$(go version)
 gov=${v:1-20}
 commit=$(git rev-parse HEAD)

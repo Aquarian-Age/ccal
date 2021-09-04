@@ -636,5 +636,179 @@ func (f *TMainForm) OnFormDefault(y int, m int, d int, h int) {
 	if _, ok := tianYi[harr[11]]; ok {
 		f.tianYiHai.SetCaption(tianYi[harr[11]])
 	}
+	// --- 五不遇 ---
+	wuBuYu := rqm.WuBuYu()
 
+	f.wuBuYuZi = vcl.NewLabel(f)
+	f.wuBuYuZi.SetParent(f)
+	f.wuBuYuZi.SetTop(top1)
+	f.wuBuYuZi.SetLeft(left7)
+	if _, ok := wuBuYu[harr[0]]; ok {
+		f.wuBuYuZi.SetCaption(wuBuYu[harr[0]])
+	}
+
+	f.wuBuYuChou = vcl.NewLabel(f)
+	f.wuBuYuChou.SetParent(f)
+	f.wuBuYuChou.SetTop(top1 * 2)
+	f.wuBuYuChou.SetLeft(left7)
+	if _, ok := wuBuYu[harr[1]]; ok {
+		f.wuBuYuChou.SetCaption(wuBuYu[harr[1]])
+	}
+
+	f.wuBuYuYin = vcl.NewLabel(f)
+	f.wuBuYuYin.SetParent(f)
+	f.wuBuYuYin.SetTop(top1 * 3)
+	f.wuBuYuYin.SetLeft(left7)
+	if _, ok := wuBuYu[harr[2]]; ok {
+		f.wuBuYuYin.SetCaption(wuBuYu[harr[2]])
+	}
+
+	f.wuBuYuMao = vcl.NewLabel(f)
+	f.wuBuYuMao.SetParent(f)
+	f.wuBuYuMao.SetTop(top1 * 4)
+	f.wuBuYuMao.SetLeft(left7)
+	if _, ok := wuBuYu[harr[3]]; ok {
+		f.wuBuYuMao.SetCaption(wuBuYu[harr[3]])
+	}
+
+	f.wuBuYuChen = vcl.NewLabel(f)
+	f.wuBuYuChen.SetParent(f)
+	f.wuBuYuChen.SetTop(top1 * 5)
+	f.wuBuYuChen.SetLeft(left7)
+	if _, ok := wuBuYu[harr[4]]; ok {
+		f.wuBuYuChen.SetCaption(wuBuYu[harr[4]])
+	}
+
+	f.wuBuYuSi = vcl.NewLabel(f)
+	f.wuBuYuSi.SetParent(f)
+	f.wuBuYuSi.SetTop(top1 * 6)
+	f.wuBuYuSi.SetLeft(left7)
+	if _, ok := wuBuYu[harr[5]]; ok {
+		f.wuBuYuSi.SetCaption(wuBuYu[harr[5]])
+	}
+
+	f.wuBuYuWu = vcl.NewLabel(f)
+	f.wuBuYuWu.SetParent(f)
+	f.wuBuYuWu.SetTop(top1 * 7)
+	f.wuBuYuWu.SetLeft(left7)
+	if _, ok := wuBuYu[harr[6]]; ok {
+		f.wuBuYuWu.SetCaption(wuBuYu[harr[6]])
+	}
+
+	f.wuBuYuWei = vcl.NewLabel(f)
+	f.wuBuYuWei.SetParent(f)
+	f.wuBuYuWei.SetTop(top1 * 8)
+	f.wuBuYuWei.SetLeft(left7)
+	if _, ok := wuBuYu[harr[7]]; ok {
+		f.wuBuYuWei.SetCaption(wuBuYu[harr[7]])
+	}
+
+	f.wuBuYuShen = vcl.NewLabel(f)
+	f.wuBuYuShen.SetParent(f)
+	f.wuBuYuShen.SetTop(top1 * 9)
+	f.wuBuYuShen.SetLeft(left7)
+	if _, ok := wuBuYu[harr[8]]; ok {
+		f.wuBuYuShen.SetCaption(wuBuYu[harr[8]])
+	}
+
+	f.wuBuYuYou = vcl.NewLabel(f)
+	f.wuBuYuYou.SetParent(f)
+	f.wuBuYuYou.SetTop(top1 * 10)
+	f.wuBuYuYou.SetLeft(left7)
+	if _, ok := wuBuYu[harr[9]]; ok {
+		f.wuBuYuYou.SetCaption(wuBuYu[harr[9]])
+	}
+
+	f.wuBuYuXu = vcl.NewLabel(f)
+	f.wuBuYuXu.SetParent(f)
+	f.wuBuYuXu.SetTop(top1 * 11)
+	f.wuBuYuXu.SetLeft(left7)
+	if _, ok := wuBuYu[harr[10]]; ok {
+		f.wuBuYuXu.SetCaption(wuBuYu[harr[10]])
+	}
+
+	f.wuBuYuHai = vcl.NewLabel(f)
+	f.wuBuYuHai.SetParent(f)
+	f.wuBuYuHai.SetTop(top1 * 12)
+	f.wuBuYuHai.SetLeft(left7)
+	if _, ok := wuBuYu[harr[11]]; ok {
+		f.wuBuYuHai.SetCaption(wuBuYu[harr[11]])
+	}
+
+	//---九星 八门 吉凶 ---
+	infoStarFei := rqm.InfoJiuXingFeiGong()
+	infoStar := rqm.InfoJiuXing()
+	infoDoor := rqm.InfoBaMen()
+	infoDS1 := rqm.InfoBaMenJiuXing(1)
+	infoDS8 := rqm.InfoBaMenJiuXing(8)
+	infoDS3 := rqm.InfoBaMenJiuXing(3)
+	infoDS4 := rqm.InfoBaMenJiuXing(4)
+	infoDS9 := rqm.InfoBaMenJiuXing(9)
+	infoDS2 := rqm.InfoBaMenJiuXing(2)
+	infoDS7 := rqm.InfoBaMenJiuXing(7)
+	infoDS6 := rqm.InfoBaMenJiuXing(6)
+
+	f.kanStar.SetHint(infoStarFei[1] + infoStar[1])
+	f.genStar.SetHint(infoStarFei[8] + infoStar[8])
+	f.zhenStar.SetHint(infoStarFei[3] + infoStar[3])
+	f.xunStar.SetHint(infoStarFei[4] + infoStar[4])
+	f.liStar.SetHint(infoStarFei[9] + infoStar[9])
+	f.kunStar.SetHint(infoStarFei[2] + infoStar[2])
+	f.duiStar.SetHint(infoStarFei[7] + infoStar[7])
+	f.qianStar.SetHint(infoStarFei[6] + infoStar[6])
+	f.zhongStar.SetHint(infoStarFei[5] + infoStar[5])
+
+	if infoDS1 != "" {
+		f.kanDoor.SetHint(infoDoor[1] + infoDS1)
+	} else {
+		f.kanDoor.SetHint(infoDoor[1])
+	}
+	if infoDS8 != "" {
+		f.genDoor.SetHint(infoDoor[8] + infoDS8)
+	} else {
+		f.genDoor.SetHint(infoDoor[8])
+	}
+	if infoDS3 != "" {
+		f.zhenDoor.SetHint(infoDoor[3] + infoDS3)
+	} else {
+		f.zhenDoor.SetHint(infoDoor[3])
+	}
+	if infoDS4 != "" {
+		f.xunDoor.SetHint(infoDoor[4] + infoDS4)
+	} else {
+		f.xunDoor.SetHint(infoDoor[4])
+	}
+	if infoDS9 != "" {
+		f.liDoor.SetHint(infoDoor[9] + infoDS9)
+	} else {
+		f.liDoor.SetHint(infoDoor[9])
+	}
+	if infoDS2 != "" {
+		f.kunDoor.SetHint(infoDoor[2] + infoDS2)
+	} else {
+		f.kunDoor.SetHint(infoDoor[2])
+	}
+	if infoDS7 != "" {
+		f.duiDoor.SetHint(infoDoor[7] + infoDS7)
+	} else {
+		f.duiDoor.SetHint(infoDoor[7])
+	}
+	if infoDS6 != "" {
+		f.qianDoor.SetHint(infoDoor[6] + infoDS6)
+	} else {
+		f.qianDoor.SetHint(infoDoor[6])
+	}
+
+	f.huangHeiZi.SetHint(rqm.InfoHuangHei(huangHei["子"]))
+	f.huangHeiChou.SetHint(rqm.InfoHuangHei(huangHei["丑"]))
+	f.huangHeiYin.SetHint(rqm.InfoHuangHei(huangHei["寅"]))
+	f.huangHeiMao.SetHint(rqm.InfoHuangHei(huangHei["卯"]))
+	f.huangHeiChen.SetHint(rqm.InfoHuangHei(huangHei["辰"]))
+	f.huangHeiSi.SetHint(rqm.InfoHuangHei(huangHei["巳"]))
+	f.huangHeiWu.SetHint(rqm.InfoHuangHei(huangHei["午"]))
+	f.huangHeiWei.SetHint(rqm.InfoHuangHei(huangHei["未"]))
+	f.huangHeiShen.SetHint(rqm.InfoHuangHei(huangHei["申"]))
+	f.huangHeiYou.SetHint(rqm.InfoHuangHei(huangHei["酉"]))
+	f.huangHeiXu.SetHint(rqm.InfoHuangHei(huangHei["戌"]))
+	f.huangHeiHai.SetHint(rqm.InfoHuangHei(huangHei["亥"]))
 }

@@ -20,7 +20,7 @@ var (
 )
 
 const (
-	top1  = 20
+	top1  = 35
 	top2  = 170
 	top3  = 320
 	left1 = 30
@@ -30,4 +30,5 @@ const (
 	left4 = 420
 	left5 = 500
 	left6 = 560
+	left7 = 640
 )
