@@ -28,3 +28,5 @@ export PATH=/home/user/Android/android-ndk-r23b:$PATH
 go get fyne.io/fyne/v2
 ./build.sh
 ```
+
+![](./ui.png)
