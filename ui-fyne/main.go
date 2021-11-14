@@ -87,6 +87,7 @@ func main() {
 		month := selectm.SelectedIndex() + 1
 		day := selectd.SelectedIndex() + 1
 		hour := selecth.SelectedIndex()
+		t = time.Date(year, time.Month(month), day, hour, 0, 0, 0, time.Local)
 
 		//显示到主页面
 		solarS := fmt.Sprintf("%d年-%d月-%d日 ", year, month, day )
