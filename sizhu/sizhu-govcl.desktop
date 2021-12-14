@@ -1,0 +1,7 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=四柱
+Exec=/usr/local/bin/sizhu-govcl
+Icon=/usr/local/share/icons/sizhu-govcl.png
+Terminal=false
+Type=Application
