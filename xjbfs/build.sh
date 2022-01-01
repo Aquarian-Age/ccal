@@ -8,13 +8,13 @@
 
 # set -v
 # go get -u github.com/ying32/liblclbinres
-app="rjqm-govcl"
-version="0.0.6" 
+app="xjbfs-govcl"
+version="6.0.0"
 v=$(go version)
-gov=${v:1-20}
+gov=${v:2-20}
 commit=$(git rev-parse HEAD)
 time=$(date +"%Y-%m-%d %H:%M:%S")
-path="liangzi.local/qx/cmd"
+path="liangzi.local/qx/cmd" 
 
 flags="
 -X $path.Version=$version
@@ -22,4 +22,4 @@ flags="
 -X '$path.BuildTime=$time'
 -X $path.GitCommit=$commit
 -s -w"
-go build -ldflags "$flags" -trimpath -tags tempdll -o /home/aaa/rpm/BUILD/$app-$version/$app .
+go build -ldflags "$flags" -trimpath -tags tempdll -o /home/a/rpm/BUILD/$app-$version/xjbfs-govcl .

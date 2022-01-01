@@ -2,11 +2,11 @@ module rjqm-govcl
 
 go 1.17
 
-replace liangzi.local/qx => /home/xuan/src/git.sr.ht/qxqm/v2/
+replace liangzi.local/qx => /home/aaa/src/git.sr.ht/qxqm/v2/
 
-replace github.com/ying32/govcl => /home/xuan/tftp/govcl
+replace github.com/ying32/govcl => /home/aaa/tftp/govcl
 
-replace github.com/dylib => /home/xuan/tftp/govcl/dylib
+replace github.com/dylib => /home/aaa/tftp/govcl/dylib
 
 require (
 	github.com/starainrt/astro v0.0.0-20210304105239-5bd51a8aad8f // indirect
