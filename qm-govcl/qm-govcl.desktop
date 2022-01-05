@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=qm-govcl
+Exec=/usr/local/bin/qm-govcl
+Icon=/usr/local/share/icons/qm-govcl.png
+Terminal=false
+Type=Application

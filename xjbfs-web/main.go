@@ -11,14 +11,15 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"liangzi.local/qx/pkg/gz"
-	"liangzi.local/qx/pkg/pub"
-	"liangzi.local/qx/pkg/x"
-	"liangzi.local/qx/pkg/xjbfsv2"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"liangzi.local/qx/pkg/gz"
+	"liangzi.local/qx/pkg/pub"
+	"liangzi.local/qx/pkg/x"
+	"liangzi.local/qx/pkg/xjbfsv2"
 )
 
 //默认8111 指定端口 yq -l 9999
@@ -97,7 +98,7 @@ func NewBody(t time.Time) *Body {
 	riqin := gzo.RiQin(weekn)
 
 	jiazinaxiang := x.StarSelf(riqin)
-	xjbfv2arr := xjbfsv2.NewXibfs(year, month, day, hour)
+	xjbfv2arr := xjbfsv2.NewXjbfs(year, month, day, hour)
 
 	return &Body{
 		gzo,
@@ -117,23 +118,18 @@ func NewBody(t time.Time) *Body {
 }
 
 func getTimes(r *http.Request) time.Time {
-	//年
 	ly, err := strconv.Atoi(r.Form["ly"][0])
 	if err != nil {
 		log.Fatalln("年异常:", err)
 	}
-	//月
 	lm, err := strconv.Atoi(r.Form["lm"][0])
 	if err != nil {
 		log.Fatalln("月异常: ", err)
 	}
-
-	//日
 	ld, err := strconv.Atoi(r.Form["ld"][0])
 	if err != nil {
 		log.Fatalln("日异常:", err)
 	}
-	//时辰 子时1 丑时2 寅时3...
 	lh, err := strconv.Atoi(r.Form["lh"][0])
 	if err != nil {
 		log.Fatalln("时辰异常:", err)

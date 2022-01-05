@@ -2,7 +2,7 @@ module xjbfs-web
 
 go 1.17
 
-replace liangzi.local/qx => ../../../v2/
+replace liangzi.local/qx => ../../../qxqm/v2/
 
 require liangzi.local/qx v0.0.0-00010101000000-000000000000
 
