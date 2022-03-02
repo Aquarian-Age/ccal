@@ -24,7 +24,13 @@ sudo zypper in -y chineseLunar
 
 - exe打包使用了[Inno Setup](https://jrsoftware.org/isinfo.php)
 
-- 安装
+- rpm安装
+
 ```bash
 sudo rpm -ivh xjbfs-6.2.0-a.x86_64.rpm --force --nodeps
+```
+
+- deb安装
+```bash
+sudo dpkg --install chineseLunar_1.0.6t-c_amd64.deb
 ```
