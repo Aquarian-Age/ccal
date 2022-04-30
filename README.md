@@ -28,6 +28,8 @@ sudo zypper in -y chineseLunar
 
 - [二十八宿走失诀 login](https://github.com/Aquarian-Age/ccal/releases/tag/zouShi)
 
+- [玉  洞  金  书](https://github.com/Aquarian-Age/ccal/releases/tag/yuDongJinShu)
+
 ---
 
 - rpm ded打包使用了[nfpm](https://github.com/goreleaser/nfpm)
