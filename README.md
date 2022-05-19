@@ -30,6 +30,8 @@ sudo zypper in -y chineseLunar
 
 - [yuDongJinShu](https://github.com/Aquarian-Age/ccal/releases/tag/yuDongJinShu)
 
+- [小六壬](https://github.com/Aquarian-Age/ccal/releases/tag/xiaoliuren)
+
 ---
 
 - rpm ded打包使用了[nfpm](https://github.com/goreleaser/nfpm)
