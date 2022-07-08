@@ -11,7 +11,7 @@ sudo zypper ref -r home_liangzi
 sudo zypper in -y chineseLunar
 ```
 
-- [sjqm v3](https://github.com/Aquarian-Age/ccal/releases/tag/v3.0.0)
+- [sjqm v3](https://github.com/Aquarian-Age/ccal/releases/tag/untagged-cb9403a25224321ba986)
 
 
 - [奇门](https://github.com/Aquarian-Age/ccal/releases/tag/qm-govcl)
@@ -20,13 +20,13 @@ sudo zypper in -y chineseLunar
 - [紫微斗数](https://github.com/Aquarian-Age/ccal/releases/tag/zwds-govcl)
 
 
-- [协纪辩方书](https://github.com/Aquarian-Age/ccal/releases/tag/xjbfs-v6)
+- [协纪辩方书](https://github.com/Aquarian-Age/ccal/releases/tag/untagged-e5c7a2a7bcedb08a7e2a)
 
 
 - [28宿日历](https://github.com/Aquarian-Age/ccal/releases/tag/28%E5%AE%BF%E6%97%A5%E5%8E%86)
 
 
-- [四柱简排](https://github.com/Aquarian-Age/ccal/releases/tag/sizhu)
+- [四柱简排](https://github.com/Aquarian-Age/ccal/releases/tag/untagged-422ee454f029e15883b1)
 
 
 - [二十八宿走失诀](https://github.com/Aquarian-Age/ccal/releases/tag/zouShi)
