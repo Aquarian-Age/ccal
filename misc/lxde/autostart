@@ -1,0 +1,4 @@
+@lxpanel --profile LXDE
+@pcmanfm --desktop --profile LXDE
+@xscreensaver -no-splash
+@sh /usr/local/bin/display-hdmi-lvds.sh
