@@ -1,5 +1,7 @@
 ## 
 
+- [bing-wallpaper](https://github.com/Aquarian-Age/ccal/releases/tag/bing-wallpaper)
+
 **有密码**
 
 - [chineseLunar](https://github.com/Aquarian-Age/ccal/releases/tag/chineseLunar)
