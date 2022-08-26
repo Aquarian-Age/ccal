@@ -25,5 +25,7 @@ ExecStart=/home/user/bin/bing-wallpaper
 WantedBy=multi-user.target
 ```
 - 设置开机启动
+```bash
 systemctl --user start bing-wallpaper.service
 systemctl --user enable bing-wallpaper.service 
+```
