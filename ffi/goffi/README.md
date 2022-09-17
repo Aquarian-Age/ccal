@@ -2,6 +2,8 @@
 
 A new Flutter project.
 ```bash
+flutter pub run bindgo:run
+
 flutter run -d Linux
 ```
 
