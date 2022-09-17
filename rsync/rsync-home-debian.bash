@@ -6,11 +6,11 @@
 sleep 3
 
 debian_home(){
-		rsync -aAXHv --delete-excluded /home/xuan/Android /home/xuan/android-studio /home/xuan/OneDrive /home/xuan/Blog /home/xuan/ccal /home/xuan/flutter /home/xuan/Documents /home/xuan/Music /home/xuan/mysql /home/xuan/Picture /home/xuan/Sync /mnt/sdd1/rsync-backup-debian/
+		rsync -aAXHv --delete-excluded /home/user/Android /home/user/android-studio /home/user/OneDrive /home/user/Blog /home/user/ccal /home/user/flutter /home/user/Documents /home/user/Music /home/user/mysql /home/user/Picture /home/user/Sync /mnt/sdd1/rsync-backup-debian/
 }
 
 remove_log(){
-		cd /home/xuan/
+		cd /home/user/
 		/usr/bin/find .config/ -type f -iname "log" -exec rm {} \;
 }
 ####################################################
@@ -24,7 +24,7 @@ if [ -d "$dir" ];then
 		remove_log
 		debian_home
 else
-		echo "$t 磁盘没有挂载" >> /home/xuan/Pub/rsync.log
+		echo "$t 磁盘没有挂载" >> /home/user/Pub/rsync.log
 fi
 
 # https://wiki.archlinux.org/title/Rsync
