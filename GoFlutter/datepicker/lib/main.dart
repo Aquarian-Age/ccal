@@ -19,9 +19,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('使用案例'),
-        // ),
+        appBar: AppBar(
+          title: const Text(
+            'Demo',
+            style: TextStyle(color: Colors.blue), // 标题字体颜色
+          ),
+          centerTitle: true, //标题居中显示
+          backgroundColor: Colors.white, //标题背景颜色
+          toolbarHeight: 24, //标题高度
+          // toolbarTextStyle:
+          //     TextStyle(fontSize: 16, color: Color.fromARGB(0, 97, 8, 212)),
+        ),
         body: DemoPage(),
       ),
     );

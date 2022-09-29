@@ -37,15 +37,15 @@ class _DemoPageState extends State<DemoPage> {
   }
 
   String infoStr = '';
-  void getServer() async {
+  void getInfo() async {
     const url = "http://localhost:6714";
     final respones = await http.post(
-      Uri.parse(url),
+      Uri.parse("$url/info"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'times': dateStr,
+        'times': dateStr, //传送时间到服务端
       }),
     );
     if (respones.statusCode == 200) {
@@ -62,26 +62,38 @@ class _DemoPageState extends State<DemoPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.only(top: 8.0),
-          width: MediaQuery.of(context).size.width,
-          // child: Text(
-          //   '当前时间： $dateStr',
-          //   textAlign: TextAlign.center,
-          // ),
+            // padding: const EdgeInsets.only(top: 8.0),
+            // width: MediaQuery.of(context).size.width,
+            // child: Text(
+            //   '当前时间： $dateStr',
+            //   textAlign: TextAlign.center,
+            // ),
+            ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _Button('select date', () {
+              MyPicker.showDateTimePicker(
+                context: context,
+                background: Colors.black,
+                color: Colors.white,
+                current: date,
+                magnification: 1.2,
+                squeeze: 1.45,
+                offAxisFraction: 0.2,
+                onChange: _change('yyyy-MM-dd HH:mm'),
+              );
+            }),
+            const Text(' '), //一个间隔
+            OutlinedButton(
+              onPressed: getInfo,
+              child: const Text(
+                'Info',
+                style: TextStyle(fontSize: 21),
+              ),
+            ),
+          ],
         ),
-        _Button('select date', () {
-          MyPicker.showDateTimePicker(
-            context: context,
-            background: Colors.black,
-            color: Colors.white,
-            current: date,
-            magnification: 1.2,
-            squeeze: 1.45,
-            offAxisFraction: 0.2,
-            onChange: _change('yyyy-MM-dd HH:mm'),
-          );
-        }),
-        TextButton(onPressed: getServer, child: const Text('show')),
         Text(infoStr),
       ],
     );
