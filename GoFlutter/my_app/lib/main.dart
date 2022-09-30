@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_my_picker_null_safety/common/date.dart';
+import 'package:flutter_my_picker_null_safety/flutter_my_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:sprintf/sprintf.dart';
-
-import 'info.dart';
 
 // https://docs.flutter.dev/cookbook/networking/send-data
 // 客户端输入 以POST json格式 传送给服务端
@@ -22,6 +21,9 @@ Future<ClientData> createData(String data) async {
   );
 
   if (respones.statusCode == 200) {
+    //var js = jsonDecode(respones.body);
+    // print("decode: " + js['times']); //服务器返回来的数据
+    // print("infos:" + js['info']);
     return ClientData.fromJson(jsonDecode(respones.body));
   } else {
     throw Exception('Failed to create clientData');
@@ -29,15 +31,16 @@ Future<ClientData> createData(String data) async {
 }
 
 class ClientData {
-  // int id;
   String times;
-
-  ClientData({required this.times});
+  String gzs;
+  String info;
+  ClientData({required this.times, required this.gzs, required this.info});
 
   factory ClientData.fromJson(Map<String, dynamic> json) {
     return ClientData(
-      // id: json['id'],
       times: json['times'],
+      gzs: json['gzs'],
+      info: json['info'],
     );
   }
 }
@@ -47,6 +50,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  //
   const MyApp({super.key});
 
   @override
@@ -69,129 +73,74 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //
-  String ygzs = "";
-  void getServe() async {
-    const url = "http://localhost:6714";
-    final client = http.Client();
-    final request = http.Request('GET', Uri.parse(url))
-      ..followRedirects = false;
-    final response = await client.send(request);
-
-    if (response.statusCode == 200) {
-      final resp = await http.get(Uri.parse(url)); //从服务器获取数据
-      final jsonMap = json.decode(resp.body);
-      Info info = Info.fromJson(jsonMap);
-      setState(() {
-        var solar = info.solar;
-        var gzs = info.gzs;
-        var lus = info.lu;
-        var xks = info.xk;
-        var nys = info.nayins;
-        var moons = "阴历: ${info.moon}";
-        var zqs = info.zqs;
-        var yjs = info.yjs;
-        var huangh = info.huangheis;
-        var riqin = info.riqins;
-        var hhs = info.huangheiHs;
-        var jlr = info.jueliris;
-        var jtb = info.jitanbings;
-        var listInfo = [
-          solar,
-          lus,
-          gzs,
-          xks,
-          nys,
-          moons,
-          zqs,
-          yjs,
-          huangh,
-          riqin,
-          hhs,
-          jlr,
-          jtb,
-        ];
-        ygzs = sprintf(
-            "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s%s\n", listInfo);
-      });
-    }
-
-    // print(ygzs);
-
-    client.close();
+//时间选择器组件
+  String dateStr = '';
+  void _datePicker(context) {
+    MyPicker.showDateTimePicker(
+      context: context,
+      title: const Text("myPicker"),
+      onConfirm: (time) {
+        setState(() {
+          dateStr = MyDate.format('yyyy-MM-dd HH:mm:ss', time);
+        });
+      },
+    );
   }
 
-//客户端
-  final TextEditingController _controller = TextEditingController();
-  Future<ClientData>? _futureClientData;
+//传送时间到服务端
+  String infoStr = '';
+  void getInfo() async {
+    const url = "http://localhost:6714";
+    final respones = await http.post(
+      Uri.parse("$url/info"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'times': dateStr, //传送时间到服务端
+      }),
+    );
+    if (respones.statusCode == 200) {
+      ClientData clientData = ClientData.fromJson(jsonDecode(respones.body));
+      setState(() {
+        infoStr = clientData.info;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("app create data"),
+          title: const Text(
+            "my_app",
+            style: TextStyle(color: Colors.blue),
+          ),
+          centerTitle: true, //标题居中显示
+          backgroundColor: Colors.white, //标题背景颜色
+          toolbarHeight: 24, //标题高度
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              //客户端文本输入
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(8.0),
-                child: (_futureClientData == null)
-                    ? buildColumn()
-                    : buildFutureBuilder(),
+              Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      _datePicker(context);
+                    },
+                    child: const Text("select Date"),
+                  ),
+                  TextButton(onPressed: getInfo, child: const Text('Info')),
+                ],
               ),
-              Text(
-                ygzs,
-                // style: Theme.of(context).textTheme.headline4,
-              ),
+              Text(infoStr),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: getServe,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add_home),
-        ),
       ),
-    );
-  }
-
-//获取输入文本
-  Column buildColumn() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        TextField(
-          controller: _controller,
-          decoration: const InputDecoration(hintText: 'Enter Text'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _futureClientData = createData(_controller.text);
-            });
-          },
-          child: const Text('Create Data'),
-        ),
-      ],
-    );
-  }
-
-  FutureBuilder<ClientData> buildFutureBuilder() {
-    return FutureBuilder<ClientData>(
-      future: _futureClientData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data!.times);
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-        return const CircularProgressIndicator();
-      },
     );
   }
 }
