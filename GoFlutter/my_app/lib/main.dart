@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:my_app/page_home.dart';
+import 'package:my_app/page_info.dart';
 import 'package:my_app/page_jqh.dart';
 
 void main() {
@@ -40,31 +40,76 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(color: Colors.blue),
           ),
           centerTitle: true, //标题居中显示
-          backgroundColor: Colors.white, //标题背景颜色
+          //backgroundColor: Colors.white, //标题背景颜色
           toolbarHeight: 26, //标题高度
         ),
-        body: Column(
+        body: Center(
           // textDirection: TextDirection.rtl,
           // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const PageInfo()));
-              },
-              child: const Text('INFO'),
-            ),
-            const SizedBox(height: 16), // 上下组件间距的高度
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const PageJQHfw())));
-              },
-              child: const Text('JQH'),
-            ),
-          ],
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                width: 100,
+                height: 60,
+                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PageInfo()));
+                  },
+                  child: const Text(
+                    'INFO',
+                    style: TextStyle(color: Colors.white, fontSize: 26),
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: 100,
+                height: 60,
+                margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => const PageJQHfw())));
+                  },
+                  child: const Text(
+                    'JQH',
+                    style: TextStyle(color: Colors.white, fontSize: 26),
+                  ),
+                ),
+              ),
+              // OutlinedButton(
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => const PageInfo()));
+              //   },
+              //   child: const Text('INFO'),
+              // ),
+
+              // const SizedBox(height: 16), // 上下组件间距的高度
+              // OutlinedButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: ((context) => const PageJQHfw())));
+              //   },
+              //   child: const Text('JQH'),
+              // ),
+            ],
+          ),
         ),
       ),
     );
