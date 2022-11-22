@@ -1,5 +1,7 @@
 ## 
 
+- [jqh_web_simple](https://github.com/Aquarian-Age/ccal/releases/tag/jqh-simple)
+
 - [www-data](https://github.com/Aquarian-Age/ccal/releases/tag/www-data)
 
 - [jqh_flutter](https://github.com/Aquarian-Age/ccal/releases/tag/jqh-v2.0.6)
