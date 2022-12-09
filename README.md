@@ -1,5 +1,7 @@
 ## 
 
+- [阴阳历](https://github.com/Aquarian-Age/ccal/releases/tag/calendar_flutter)
+
 - [jqh_ffi](https://github.com/Aquarian-Age/ccal/releases/tag/jqh_ffi)
 
 - [jqh_web_simple](https://github.com/Aquarian-Age/ccal/releases/tag/jqh-simple)
