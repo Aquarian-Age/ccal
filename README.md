@@ -2,7 +2,7 @@
 
 ---
 
-- [阴阳历](https://github.com/Aquarian-Age/ccal/releases/tag/calendar_flutter)
+- [阴阳历](https://github.com/Aquarian-Age/ccal/releases/tag/calendar_flutter) `2023-02-09更新v1.3.6`
 
 - [jqh_ffi](https://github.com/Aquarian-Age/ccal/releases/tag/jqh_ffi)
 
