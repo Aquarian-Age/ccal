@@ -1,5 +1,6 @@
 ## 
 
+**因为众所周知的原因本仓库弃用**
 ---
 
 - [阴阳历](https://github.com/Aquarian-Age/ccal/releases/tag/calendar_flutter) `2023-02-09更新v1.3.6`
