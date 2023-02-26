@@ -1,6 +1,0 @@
-github.com/brian-armstrong/gpio v0.0.0-20181227042754-72b0058bbbcb h1:VmtJv/dx6i7ze0RWn6iXfRyTEFdgK06+7elSCYec4Fg=
-github.com/brian-armstrong/gpio v0.0.0-20181227042754-72b0058bbbcb/go.mod h1:akEYRl6/10JSSoNEyjgoLKKrw1M8+uBh5xsQQzxXvHs=
-github.com/fraburnham/gpio v0.0.0-20161119135204-6f8385aa8b65 h1:AiYbQaBFd61TS+M9TpKfS4u+R495yAcuCoRT1DDqKf4=
-github.com/fraburnham/gpio v0.0.0-20161119135204-6f8385aa8b65/go.mod h1:ZHNvhp3c3ppfNGOE4/wBzD5fK9zgyaLQyQdTQ4TyEI0=
-periph.io/x/periph v3.6.2+incompatible h1:B9vqhYVuhKtr6bXua8N9GeBEvD7yanczCvE0wU2LEqw=
-periph.io/x/periph v3.6.2+incompatible/go.mod h1:EWr+FCIU2dBWz5/wSWeiIUJTriYv9v2j2ENBmgYyy7Y=
