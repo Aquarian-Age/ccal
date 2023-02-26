@@ -1,0 +1,16 @@
+在/home/pi/.config/autostart文件夹内创建具有指定格式的anyname.desktop文件，如下所示
+
+[Desktop Entry]
+Type=Application
+Exec=/home/pi/Desktop/mystart.sh
+
+
+
+I tried this method and didn't work for me on Raspian. What I ended up doing was:
+1. Edit /etc/xdg/lxsession/LXDE-pi/autostart
+2. Append this line:
+@lxterminal -e /path/to/my/script.sh
+
+I hope this helps.
+
+Peace out \m/

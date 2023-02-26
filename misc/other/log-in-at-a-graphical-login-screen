@@ -1,0 +1,29 @@
+
+
+顯示目前系統預設運作層級(默认的启动 Target)
+# systemctl get-default
+graphical.target
+
+查看 multi-user.target 包含的所有服务
+systemctl list-dependencies graphical.target
+
+查看 multi-user.target 包含的所有服务
+systemctl list-dependencies multi-user.target
+
+
+重新加载配置文件
+sudo systemctl daemon-reload
+
+
+
+設定開機啟動至 GUI 模式（runlevel 5）
+systemctl set-default graphical.target
+
+設定開機啟動至文字模式（runlevel 3）
+systemctl set-default multi-user.target
+
+切換運作層級至 GUI 模式（runlevel 5）
+systemctl isolate graphical.target
+
+切換運作層級至文字模式（runlevel 3）
+systemctl isolate multi-user.target

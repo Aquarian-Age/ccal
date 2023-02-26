@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=xjbfs-govcl
+Exec=/usr/local/bin/xjbfs-govcl
+Icon=/usr/local/share/icons/xjbfs-govcl.png
+Terminal=false
+Type=Application

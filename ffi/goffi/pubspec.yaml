@@ -1,0 +1,40 @@
+name: goffi
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  ffi: ^2.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  bindgo: ^0.2.0
+
+flutter:
+
+  uses-material-design: true
+
+bindgo:
+  name: gets
+  main: ./golib
+  platforms:
+    linux:
+      arch:
+        - 'amd64'
+    android:
+      arch:
+        - 'arm64'
+      cc: '~/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang'

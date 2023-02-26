@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
+
+void main() => runApp(const AppBarApp());
+
+class AppBarApp extends StatelessWidget {
+  const AppBarApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: AppBarExample(),
+    );
+  }
+}
+
+class AppBarExample extends StatefulWidget {
+  const AppBarExample({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _AppBarExampleState();
+}
+
+class _AppBarExampleState extends State<AppBarExample> {
+  void _showPickerNumber(context) {
+    Picker(
+        adapter: NumberPickerAdapter(
+          data: [
+            const NumberPickerColumn(items: [2, 8]),
+            const NumberPickerColumn(items: [2, 8]),
+          ],
+        ),
+        delimiter: [
+          PickerDelimiter(
+              child: Container(
+            width: 20.0,
+            alignment: Alignment.center,
+            // child: Icon(Icons.more_vert),
+          ))
+        ],
+        hideHeader: true,
+        title: const Text("selectNumber"),
+        selectedTextStyle: const TextStyle(color: Colors.blue),
+        onConfirm: (Picker picker, List value) {
+          //  print(value.toString());
+          print(picker.getSelectedValues());
+          print(picker.getSelectedValues().runtimeType.toString()); //List<int>
+        }).showDialog(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('title'),
+      ),
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () {
+              _showPickerNumber(context);
+            },
+            child: Text('array picker'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
