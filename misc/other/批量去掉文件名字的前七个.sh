@@ -1,0 +1,1 @@
+﻿for var in `ls`; do mv -f "$var" `echo "$var" |sed 's/^.......//'`; done
