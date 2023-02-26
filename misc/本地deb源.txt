@@ -1,0 +1,5 @@
+本地 deb 源：
+
+1. 在联网机器上安装对应的包，并在 /var/cache/apt/archives/ 目录下生成源索引文件 `dpkg-scanpackages -m . > Packages`
+2. 拷贝 /var/cache/apt/archives/ 目录到目标机器的 /data/archives 下，在 /etc/apt/sources.list 文件中添加本地源 `deb [trusted=yes] file:/data/archives ./`
+3. 更新本地源索引 apt-get update ，然后执行 apt-get install <包名称> 安装你需要的软件

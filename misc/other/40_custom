@@ -1,0 +1,24 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+### ubuntu
+menuentry "Ubuntu 19.04 ISO" {
+set isofile="/ubuntu-19.04-desktop-amd64.iso"
+search --set -f $isofile
+loopback loop (hd2,gpt7)/$isofile
+linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=${isofile} quiet splash
+initrd (loop)/casper/initrd
+}
+
+### deeepin
+menuentry "deepin_15.1"  {
+ set isofile="/deepin-15.11-amd64.iso"
+ search --set -f $isofile
+ loopback loop (hd2,gpt7)/$isofile
+ linux (loop)/live/vmlinuz boot=live union=overlay live-config findiso=${isofile} locales=zh_CN.UTF-8 quiet splash nomodeset
+ initrd (loop)/live/initrd.lz
+}
+
