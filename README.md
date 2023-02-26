@@ -50,10 +50,3 @@ sudo rpm -ivh xjbfs-6.2.0-a.x86_64.rpm --force --nodeps
 sudo dpkg --install chineseLunar_1.0.6t-c_amd64.deb
 ```
 
-
-- openSuSE
-```bash
-sudo zypper ar -f http://download.opensuse.org/repositories/home:/liangzi/openSUSE_Tumbleweed/home:liangzi.repo
-sudo zypper ref -r home_liangzi
-sudo zypper in -y chineseLunar
-```
