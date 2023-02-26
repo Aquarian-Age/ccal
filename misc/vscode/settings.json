@@ -1,0 +1,147 @@
+{
+    "http.proxySupport": "off",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "workbench.startupEditor": "none",
+    "remote.downloadExtensionsLocally": true,
+    "timeline.excludeSources": [],
+    "workbench.enableExperiments": false,
+    "debug.allowBreakpointsEverywhere": true,
+    "update.showReleaseNotes": false,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "extensions.ignoreRecommendations": false,
+    "files.associations": {},
+    "files.autoSave": "onFocusChange",
+    "files.autoGuessEncoding": true,
+    "workbench.editor.enablePreview": false,
+    "editor.fontSize": 17,
+    "editor.tabSize": 4,
+    "editor.suggestSelection": "first",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll.markdownlint": true,
+    },
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "editor.maxTokenizationLineLength": 9000000,
+    "workbench.editorAssociations": {
+        "*.md": "default"
+    },
+
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.fixAll": true,
+        },
+        "editor.snippetSuggestions": "none",
+    },
+    "[gopls]": {
+        "build.experimentalWorkspaceModule": true,
+        "experimentalWorkspaceModule": true,
+        "completeUnimported": true,
+        "usePlaceholders": true,
+        "completionDocumentation": true,
+        "codeelens": {
+            "gc_details": true
+        }
+    },
+    "go.gopath": "/home/userName/go/",
+    "go.goroot": "/usr/local/go",
+    "go.useLanguageServer": true,
+    "go.installDependenciesWhenBuilding": false,
+    "go.buildOnSave": "off",
+    "go.lintOnSave": "off",
+    "go.vetOnSave": "off",
+    "go.buildFlags": [],
+    "go.vetFlags": [],
+    "go.useCodeSnippetsOnFunctionSuggest": false,
+    "go.formatTool": "gofmt",
+    "go.toolsManagement.autoUpdate": true,
+    "go.lintFlags": [
+        "--disable=all"
+    ],
+    "go.formatFlags": [
+        "--disable=all"
+    ],
+    "go.addTags": {},
+    "go.liveErrors": {
+        "enabled": false,
+        "delay": 500
+    },
+    "go.logging.level": "off",
+    "settingsSync.ignoredSettings": [
+        "-go.gopath"
+    ],
+    "go.delveConfig": {
+        "dlvLoadConfig": {
+            "followPointers": true,
+            "maxVariableRecurse": 1,
+            "maxStringLen": 64,
+            "maxArrayValues": 64,
+            "maxStructFields": -1
+        },
+        "apiVersion": 2,
+        "showGlobalVariables": false
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+    "rust.rustup": {
+        "toolchain": "stable-x86_64-unknown-linux-gnu"
+    },
+    "rust.mode": "legacy",
+    "[c]": {},
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "npm.fetchOnlinePackageInfo": false,
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "git.autorefresh": false,
+    "git.enabled": false,
+    "git.enableStatusBarSync": false,
+    "search.useIgnoreFiles": false,
+    "github.gitAuthentication": false,
+    "git.confirmEmptyCommits": false,
+    "git.confirmForcePush": false,
+    "git.confirmNoVerifyCommit": false,
+    "git.confirmSync": false,
+    "git.decorations.enabled": false,
+    "git.detectSubmodules": false,
+    "git.defaultCloneDirectory": "",
+    "git.openDiffOnClick": false,
+    "git.pullTags": false,
+    "git.showCommitInput": false,
+    "git.showInlineOpenFileAction": false,
+    "git.showProgress": false,
+    "git.suggestSmartCommit": false,
+    "git.terminalAuthentication": false,
+    "git.timeline.showAuthor": false,
+    "git.useForcePushWithLease": false,
+    "gitlens.advanced.messages": {
+        "suppressGitDisabledWarning": true,
+        "suppressGitMissingWarning": true
+    },
+    "json.maxItemsComputed": 65000,
+    "editor.foldingMaximumRegions": 65000,
+    "search.followSymlinks": false,
+    "editor.links": false,
+    "git.autoRepositoryDetection": false,
+    "go.alternateTools": {
+    
+    },
+    "search.quickOpen.history.filterSortOrder": "recency",
+    "workbench.editor.historyBasedLanguageDetection": false,
+    "workbench.localHistory.enabled": false,
+    "workbench.localHistory.maxFileEntries": 10,
+    "debug.console.historySuggestions": false,
+    "window.zoomLevel": 1,
+}

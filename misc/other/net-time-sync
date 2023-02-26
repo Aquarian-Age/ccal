@@ -1,0 +1,94 @@
+#!/bin/sh
+
+### 时间校对脚本　
+### CentOS6.8 + openSUSE15.0 + Ubuntu
+
+net_time_SuSE() {
+	
+#	zypper in -y netdate
+	systemctl stop ntpd.service
+	sleep 3
+	ntpdate us.pool.ntp.org && echo "$(date) verify donw ..." >> /var/log/ntp-sync.log 2>&1
+	systemctl start ntpd.service
+	date -u
+
+}
+
+net_time_CentOS() {
+
+	# yum install ntp ntpdate -y
+	/etc/init.d/ntpd stop
+	sleep 3
+	ntpdate us.pool.ntp.org && echo "$(date) verify donw ..." >> /var/log/ntp-sync.log 2>&1
+	/etc/init.d/ntpd start
+	date -u
+
+}
+
+net_time_Ubuntu() {
+
+	apt install -y ntpdate ntp
+	/etc/init.d/ntp stop
+	sleep 3
+	ntpdate us.pool.ntp.org && echo "$(date) verify donw ..." >> /var/log/ntp-sync.log 2>&1
+	/etc/init.d/ntp start
+	date -u
+
+}
+
+os_name=$(lsb_release -si)
+os_name1=$(cat /etc/redhat-release | awk '{print $1}')
+net_time_sync() {
+	if [ "$os_name" = "openSUSE" ];then
+		echo "OS is $os_name $(date) verify time now..." >> /var/log/ntp-sync.log
+		net_time_SuSE
+	elif [ "$os_name1" = "CentOS" ];then
+		echo "OS is $os_name1 $(date) verify time now ..." >> /var/log/ntp-sync.log
+		net_time_CentOS
+	elif [ "$os_name" = "Ubuntu" ];then
+		echo "OS is $os_name $(date) verify time now..." >> /var/log/ntp-sync.log
+		net_time_Ubuntu
+	fi
+}
+
+### 判断用户
+root_or_user() {
+	echo "根据当前登录用户选择"
+	echo "当前登录用户是 $(whoami)"
+
+	select u in root user
+	do
+		case $u in
+			root)
+				if [ $(whoami) = "root" ];then
+					echo user is root
+					net_time_sync
+				else
+					echo user is not root. your user name is $(whoami)
+				fi
+				break
+				;;
+			user)
+				echo user is $(whoami)
+				net_time_sync
+				break
+				;;
+			*)
+				echo what ?
+				break
+				;;
+		esac
+	done
+}
+Action() {
+
+#	if [ "$(whoami)" = "root" ];then
+#		net_time_sync
+#	else
+#		echo "need root"
+#	fi
+	root_or_user
+}
+
+Action
+

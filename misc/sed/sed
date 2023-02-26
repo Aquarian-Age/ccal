@@ -1,0 +1,207 @@
+使用 sed 命令替换/删除 文本字符的 20 个例子
+https://segmentfault.com/a/1190000020613397
+
+发布于 2019-10-08
+简述
+
+在以下的文章中会介绍使用 linux sed 命令删除和替换文件中指定字符的 20 个例子。sed 替换字符的命令格式 如下：
+
+$ sed 's/find/replace/' file
+
+示例文件：
+
+$ cat file
+Linux
+Solaris
+Ubuntu
+Fedora
+RedHat 
+
+1. 删除指定的字符，比如 'a'
+
+$ sed 's/a//' file
+Linux
+Solris
+Ubuntu
+Fedor
+RedHt
+
+以上命令会删除每一行匹配到的第一个 'a' 字符，如果要移除每一行的所有 'a' 字符：
+
+$ sed 's/a//g' file
+
+2. 移除每一行的第一个字符
+
+$ sed 's/^.//' file
+inux
+olaris
+buntu
+edora
+edHat
+
+. 谁匹配任意的单个字符，^ 指定匹配每一行的开头。以下的命令也可以达到同样的效果
+
+$ sed 's/.//' file
+
+因为 sed 命令默认是从开头匹配字符串的，所以使用 . 可以匹配开头的第一个字符。
+3. 移除每一行的最后一个字符
+
+$ sed 's/.$//' file
+Linu
+Solari
+Ubunt
+Fedor
+RedHa
+
+$ 会匹配每一行字符串的结尾。
+4. 同时移除每一行的第一个字符和最后一个字符
+
+$ sed 's/^.//;s/.$//' file
+inu
+olari
+bunt
+edor
+edHa
+
+sed命令可以结合多个操作指令，每个指令之间通过';'分割
+5. 移除每一行的匹配到的第一个字符，如果没有匹配不做处理
+
+$ sed 's/^F//' file
+Linux
+Solaris
+Ubuntu
+edora
+RedHat
+
+以上命令移除了第一个且匹配F的字符
+6. 移除每一行的匹配到的最后一个字符，如果没有匹配不做处理
+
+$ sed 's/x$//' file
+Linu
+Solaris
+Ubuntu
+Fedora
+RedHat
+
+以上命令只会删除每一行结尾是 x 的字符
+7. 删除每一行的第一到第三个字符
+
+$ sed 's/...//' file
+ux
+aris
+ntu
+ora
+Hat
+
+8. 删除每一行的第一个到第 n 个字符
+
+$ sed -r 's/.{4}//' file
+x
+ris
+tu
+ra
+at
+
+.{n} 匹配 n 次一个任意的字符
+9. 删除每一行的最后 n 个字符
+
+$ sed -r 's/.{3}$//' file
+Li
+Sola
+Ubu
+Fed
+Red
+
+10. 除了每一行的第一到第n个字符外，剩下的都要删除
+
+$ sed -r 's/(.{3}).*/\1/' file
+Lin
+Sol
+Ubu
+Fed
+Red 
+
+.{3}匹配每一行开头3个字符，且用 () 分组；.* 表示匹配任意多个字符。在替换位通过 \1 表示保留第一个分组的内容。
+11. 删除每一行所有字符且保留结尾的n个字符
+
+$ sed -r 's/.*(.{3})/\1/' file
+nux
+ris
+ntu
+ora
+Hat
+
+12. 删除每一行匹配到的多个字符
+
+$ sed 's/[aoe]//g' file
+Linux
+Slris
+Ubuntu
+Fdr
+RdHt
+
+[] 指定需要匹配的多个字符，g 表示删除每一行匹配到的所有字符
+13. 删除匹配到的字符串
+
+$ sed 's/lari//g' file
+Linux
+Sos
+Ubuntu
+Fedora
+RedHat
+
+'lari' 从 'Solaris' 中删除
+14. 删除每一行匹配到的第 n 个字符
+
+$ sed 's/u//2' file
+Linux
+Solaris
+Ubunt
+Fedora
+RedHat
+
+默认 sed 只会处理匹配到的第一个字符，可以指定处理匹配到的第几个字符，如上，Ubuntu 将匹配的第二个字符删除了。
+15. 删除每一行以某个字符开头的子字符串
+
+$ sed 's/a.*//' file
+Linux
+Sol
+Ubuntu
+Fedor
+RedH
+
+16. 删除文件中每一行中出现的所有数字
+
+$ sed 's/[0-9]//g' file
+
+17. 删除每一行中出现的小写字符
+
+$ sed 's/[a-z]//g' file
+L
+S
+U
+F
+RH
+
+18. 删除除了小写字符之外的其他所有字符
+
+$ sed 's/[^a-z]//g' file
+inux
+olaris
+buntu
+edora
+edat
+
+19. 删除每一行所有的字母和数字字符
+
+$ sed 's/[a-z][A-Z][0-9]//g' file
+
+20. 删除每一行的一个字符，且忽略大小写
+
+$ sed 's/[uU]//g'
+Linx
+Solaris
+bnt
+Fedora
+RedHat
+
