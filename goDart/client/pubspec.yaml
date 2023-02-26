@@ -1,0 +1,11 @@
+name: get
+description: >
+version: 1.2.3
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+  
+dependencies: 
+  flutter:
+    sdk: flutter
+  http: ^0.13.5
